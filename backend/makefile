@@ -7,3 +7,12 @@ schema:
 .PHONY: run
 run:
 	go run ./cmd/server/main.go
+
+.PHONY: build
+build:
+	@echo "🔄 Building image..."
+	docker buildx build \
+	--platform linux/amd64 \
+	-t ghcr.io/jhelar/piggysplit:latest \
+	--push .
+	@echo "✅ Image built"

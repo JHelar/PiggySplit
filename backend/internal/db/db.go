@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	"os"
+	"path/filepath"
 
 	"github.com/JHelar/PiggyPay.git/internal/db/generated"
 
@@ -23,9 +25,18 @@ type DB struct {
 }
 
 func New() *DB {
+	dbPath := os.Getenv("PIGGYSPLIT_DB")
+	if len(dbPath) == 0 {
+		dbPath = DATABASE_NAME
+	}
+
+	if err := os.MkdirAll(filepath.Dir(dbPath), 0755); err != nil {
+		log.Fatal(err)
+	}
+
 	ctx := context.Background()
 
-	db, err := sql.Open("sqlite3", DATABASE_NAME)
+	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		log.Fatal("Failed to open database", err)
 	}

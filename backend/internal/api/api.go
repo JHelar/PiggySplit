@@ -5,7 +5,7 @@ import (
 )
 
 func RegisterRoutes(app fiber.Router, context *ApiContext) {
-	app.Post("/", func(ctx *fiber.Ctx) error {
+	app.Get("/", func(ctx *fiber.Ctx) error {
 		return helloWorld(ctx, context)
 	}).Name("helloWorld")
 
