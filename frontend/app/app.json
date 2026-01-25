@@ -1,55 +1,57 @@
 {
-  "expo": {
-    "name": "piggysplit",
-    "slug": "piggysplit",
-    "version": "1.0.0",
-    "orientation": "default",
-    "icon": "./assets/images/icon.png",
-    "scheme": "piggysplit",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.piggysplit",
-      "config": {
-        "usesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.piggysplit"
-    },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
-        }
-      ],
-      "expo-secure-store",
-      "expo-localization"
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
-    }
-  }
+	"expo": {
+		"name": "Piggy split",
+		"slug": "piggysplit",
+		"version": "1.0.0",
+		"orientation": "default",
+		"icon": "./assets/images/piggysplit-app-icon.png",
+		"scheme": "piggysplit",
+		"userInterfaceStyle": "automatic",
+		"newArchEnabled": true,
+		"backgroundColor": "#F6C9BA",
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.piggysplit",
+			"icon": {},
+			"config": {
+				"usesNonExemptEncryption": false
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"backgroundColor": "#E6F4FE",
+				"foregroundImage": "./assets/images/piggysplit-android-icon-foreground.png",
+				"backgroundImage": "./assets/images/piggysplit-android-icon-background.png",
+				"monochromeImage": "./assets/images/piggysplit-android-icon-foreground-mono.png"
+			},
+			"edgeToEdgeEnabled": true,
+			"predictiveBackGestureEnabled": false,
+			"package": "com.piggysplit"
+		},
+		"web": {
+			"output": "static",
+			"favicon": "./assets/images/piggysplit-app-icon.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"image": "./assets/images/piggysplit-app-icon.png",
+					"imageWidth": 200,
+					"resizeMode": "contain",
+					"backgroundColor": "#F6C9BA",
+					"dark": {
+						"backgroundColor": "#000000"
+					}
+				}
+			],
+			"expo-secure-store",
+			"expo-localization"
+		],
+		"experiments": {
+			"typedRoutes": true,
+			"reactCompiler": true
+		}
+	}
 }

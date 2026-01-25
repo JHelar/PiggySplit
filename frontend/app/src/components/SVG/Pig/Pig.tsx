@@ -38,7 +38,7 @@ export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 		if (animation === "swoop") {
 			progress.value = withRepeat(
 				withDelay(
-					5000,
+					500,
 					withTiming(1, {
 						easing: Easing.linear,
 						duration: 5250,

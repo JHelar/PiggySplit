@@ -1,5 +1,5 @@
-import { SplashScreen } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import * as SplashScreen from "expo-splash-screen";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { createUserStreamSource } from "@/api/stream";
@@ -22,6 +22,11 @@ type AuthStoreState = {
 };
 
 SplashScreen.preventAutoHideAsync();
+SplashScreen.setOptions({
+	duration: 250,
+	fade: true,
+});
+
 export const useAuth = create<AuthStoreState>()(
 	persist(
 		(set, get) => ({

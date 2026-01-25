@@ -7,9 +7,8 @@
 		"web": "expo start --web",
 		"android": "expo run:android",
 		"ios": "expo run:ios",
-		"ensurenode": "nvm use 24",
 		"prebuild": "expo prebuild",
-		"client:ios": "bun ensurenode && bun prebuild -p ios && bun ios",
+		"client:ios": "bun prebuild -p ios && bun ios",
 		"i18n:extract": "lingui extract",
 		"i18n:compile": "lingui compile --typescript"
 	},
