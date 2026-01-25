@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
-import { useUnistyles } from "react-native-unistyles";
+import * as SystemUI from "expo-system-ui";
+import { UnistylesRuntime, useUnistyles } from "react-native-unistyles";
 import { AuthState, useAuth } from "@/auth";
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { GroupRouteOptions } from "@/screens/Group";
@@ -9,6 +10,10 @@ import { HomeRouteOptions } from "@/screens/Home";
 import { PayRouteOptions } from "@/screens/Pay";
 import { ProfileRouteOptions } from "@/screens/Profile";
 import type { RenderSlot } from "@/ui/utils/renderSlot";
+
+SystemUI.setBackgroundColorAsync(
+	UnistylesRuntime.getTheme().background.primary,
+);
 
 export default function ScreenLayoutRoot() {
 	const authState = useAuth(({ state }) => state);

@@ -2,11 +2,13 @@ import z from "zod";
 import { getAuthHeaders, updateTokens } from "@/auth/auth.store";
 import { NetworkError } from "@/components/ErrorBoundary";
 
-const BASE_URL = "http://127.0.0.1:8080";
 const API_PATH = "api/v1";
 
 export function buildApiUrl(path: string) {
-	return new URL(`${API_PATH}/${path}`, BASE_URL);
+	return new URL(
+		`${API_PATH}/${path.replace(/^\//, "")}`,
+		process.env.EXPO_PUBLIC_API_URL,
+	);
 }
 
 type FetchOptions = {

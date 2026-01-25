@@ -8,7 +8,6 @@
 		"scheme": "piggysplit",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
-		"backgroundColor": "#F6C9BA",
 		"ios": {
 			"supportsTablet": true,
 			"bundleIdentifier": "com.piggysplit",
