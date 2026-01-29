@@ -6,7 +6,7 @@ schema:
 
 .PHONY: run
 run:
-	go run ./cmd/server/main.go
+	set -a && . ./.env && go run ./cmd/server/main.go
 
 .PHONY: build
 build:

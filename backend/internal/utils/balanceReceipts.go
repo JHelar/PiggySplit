@@ -6,7 +6,7 @@ import (
 	"math"
 	"slices"
 
-	"github.com/JHelar/PiggyPay.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/db/generated"
 )
 
 type Transaction struct {

@@ -7,8 +7,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/JHelar/PiggyPay.git/internal/db/generated"
-	"github.com/JHelar/PiggyPay.git/pkg/utils"
+	"github.com/JHelar/PiggySplit.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 

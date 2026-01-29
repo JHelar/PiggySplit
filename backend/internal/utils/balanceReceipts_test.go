@@ -3,7 +3,7 @@ package utils
 import (
 	"testing"
 
-	"github.com/JHelar/PiggyPay.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/db/generated"
 )
 
 func TestBalanceReceipts(t *testing.T) {

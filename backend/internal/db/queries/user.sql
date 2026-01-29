@@ -2,6 +2,10 @@
 INSERT INTO user_sign_in_tokens (email, code, expires_at) VALUES (?, ?, ?)
     ON CONFLICT (email) DO UPDATE SET expires_at=excluded.expires_at;
 
+-- name: GetSignInTokenExpiry :one
+SELECT expires_at FROM user_sign_in_tokens
+    WHERE email=?;
+
 -- name: GetSignInToken :one
 DELETE FROM user_sign_in_tokens
     WHERE email=?

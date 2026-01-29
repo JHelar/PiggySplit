@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/JHelar/PiggyPay.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/db/generated"
 	"github.com/gofiber/fiber/v2"
 )
 

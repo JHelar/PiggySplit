@@ -1,0 +1,24 @@
+{
+	"name": "email",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" email dev",
+		"export": "VERIFICATION_CODE_PLACEHOLDER=\"{{ .VerificationCode }}\" BASE_URL=\"https://192.168.50.202:8080\" NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" email export --outDir ../../backend/templates --pretty"
+	},
+	"devDependencies": {
+		"@react-email/preview-server": "5.2.5",
+		"@types/bun": "latest",
+		"@types/react": "^19.2.9",
+		"react-email": "5.2.5"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@react-email/components": "1.0.6",
+		"react": "19.2.4",
+		"react-dom": "19.2.4"
+	}
+}

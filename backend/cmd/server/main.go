@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/JHelar/PiggyPay.git/internal/server"
+	"github.com/JHelar/PiggySplit.git/internal/server"
 )
 
 func main() {

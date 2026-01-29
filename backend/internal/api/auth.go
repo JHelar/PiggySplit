@@ -9,7 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/JHelar/PiggyPay.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/mail"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -133,20 +134,35 @@ func newUserSignIn(c *fiber.Ctx, api *ApiContext) error {
 	if err := c.BodyParser(payload); err != nil {
 		return err
 	}
+
+	expires_at, err := api.DB.Queries.GetSignInTokenExpiry(ctx, payload.Email)
+	if err == nil {
+		if expires_at.After(time.Now()) {
+			log.Printf("User already has an active token")
+			return fiber.NewError(fiber.ErrBadRequest.Code, "Email already sent")
+		}
+		// Delete the expired token
+		log.Printf("Deleting expired code")
+		api.DB.Queries.GetSignInToken(ctx, payload.Email)
+	}
+
 	code := generateSignInCode()
 
 	expires := time.Now().Add(SESSION_EXPIRE_TIME)
-	err := api.DB.Queries.CreateSignInToken(ctx, generated.CreateSignInTokenParams{
+
+	if err := api.DB.Queries.CreateSignInToken(ctx, generated.CreateSignInTokenParams{
 		Email:     strings.ToLower(payload.Email),
 		Code:      code,
 		ExpiresAt: expires,
-	})
-
-	if err != nil {
+	}); err != nil {
 		return err
 	}
 
 	log.Printf("Sign in created: code(%d) email(%s)", code, payload.Email)
+	if err := mail.SendVerificationEmail(payload.Email, fmt.Sprint(code)); err != nil {
+		log.Printf("Error sending email: %v", err)
+		return fiber.DefaultErrorHandler(c, err)
+	}
 	return c.SendString("Email verification code sent")
 }
 

@@ -1,0 +1,65 @@
+{
+	"content": [
+		"./src/**/*.{html,js,ts,jsx,tsx}",
+		"./templates/**/*.{html,js,ts,jsx,tsx}"
+	],
+	"theme": {
+		"extend": {
+			"colors": {
+				"blue": {
+					"1200": "#003c5f",
+					"1100": "#007bb6",
+					"1000": "#00a4ec",
+					"900": "#00b0f9",
+					"800": "#1cb6f8",
+					"700": "#74ccfd",
+					"600": "#9adcff",
+					"500": "#b5e8ff",
+					"400": "#ccf0ff",
+					"300": "#e1f5ff",
+					"200": "#f1faff",
+					"100": "#fafdff"
+				},
+				"fontFamily": {
+					"sans": [
+						"-apple-system",
+						"BlinkMacSystemFont",
+						"Segoe UI",
+						"Roboto",
+						"Helvetica Neue",
+						"Arial",
+						"sans-serif"
+					]
+				}
+			},
+			"green": {
+				"1200": "#1c3b33",
+				"1100": "#007f67",
+				"1000": "#26957d",
+				"900": "#2fa289",
+				"800": "#5cb9a1",
+				"700": "#8ccdbb",
+				"600": "#abddce",
+				"500": "#c1e9dc",
+				"400": "#d4f1e8",
+				"300": "#e4f7f1",
+				"200": "#f4fbf8",
+				"100": "#fbfefd"
+			},
+			"gray": {
+				"1200": "#202020",
+				"1100": "#626262",
+				"1000": "#828282",
+				"900": "#8c8c8c",
+				"800": "#bbbbbb",
+				"700": "#cecece",
+				"600": "#d9d9d9",
+				"500": "#e1e1e1",
+				"400": "#e8e8e8",
+				"300": "#f0f0f0",
+				"200": "#f9f9f9",
+				"100": "#fdfdfd"
+			}
+		}
+	}
+}

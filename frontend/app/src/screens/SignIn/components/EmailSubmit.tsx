@@ -6,6 +6,7 @@ import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import z from "zod";
 import { signIn } from "@/api/user";
+import { Snackbar } from "@/components/SnackbarRoot";
 import { Button } from "@/ui/components/Button";
 import { FormField } from "@/ui/components/FormField";
 import { Text } from "@/ui/components/Text";
@@ -13,7 +14,7 @@ import { TextInput } from "@/ui/components/TextInput";
 import { useSignInStore } from "../SignIn.store";
 
 export function EmailSubmit() {
-	const { mutateAsync } = useMutation(signIn());
+	const { mutateAsync, isPending } = useMutation(signIn());
 	const form = useForm({
 		resolver: zodResolver(
 			z.object({
@@ -29,6 +30,9 @@ export function EmailSubmit() {
 				email: formData.email,
 			});
 		} catch {
+			Snackbar.toast({
+				text: "Failed to send the message, check your inbox",
+			});
 			useSignInStore.getState().transition("error");
 		}
 	});
@@ -52,7 +56,7 @@ export function EmailSubmit() {
 						/>
 					}
 				/>
-				<Button onPress={onSubmit}>
+				<Button onPress={onSubmit} loading={isPending}>
 					<Trans>Sign in or Register</Trans>
 				</Button>
 			</View>

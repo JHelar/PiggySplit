@@ -17,5 +17,5 @@ func RegisterRoutes(app fiber.Router, context *ApiContext) {
 }
 
 func helloWorld(ctx *fiber.Ctx, context *ApiContext) error {
-	return ctx.SendString("Hello PiggyPay")
+	return ctx.SendString("Hello PiggySplit")
 }

@@ -6,6 +6,7 @@ package generated
 
 import (
 	"context"
+	"time"
 )
 
 type Querier interface {
@@ -32,6 +33,7 @@ type Querier interface {
 	GetGroupMembersForUser(ctx context.Context, arg GetGroupMembersForUserParams) ([]GetGroupMembersForUserRow, error)
 	GetGroupsByUserId(ctx context.Context, userID int64) ([]GetGroupsByUserIdRow, error)
 	GetSignInToken(ctx context.Context, email string) (GetSignInTokenRow, error)
+	GetSignInTokenExpiry(ctx context.Context, email string) (time.Time, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserById(ctx context.Context, id int64) (GetUserByIdRow, error)
 	GetUserGroupTransaction(ctx context.Context, arg GetUserGroupTransactionParams) (GetUserGroupTransactionRow, error)

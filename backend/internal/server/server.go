@@ -1,13 +1,13 @@
 package server
 
 import (
-	"github.com/JHelar/PiggyPay.git/internal/api"
-	"github.com/JHelar/PiggyPay.git/internal/db"
-	"github.com/JHelar/PiggyPay.git/pkg/stream"
+	"github.com/JHelar/PiggySplit.git/internal/api"
+	"github.com/JHelar/PiggySplit.git/internal/db"
+	"github.com/JHelar/PiggySplit.git/internal/stream"
 	"github.com/gofiber/fiber/v2"
 )
 
-const APP_NAME = "PiggyPay"
+const APP_NAME = "PiggySplit"
 
 type Server struct {
 	app     *fiber.App
@@ -25,6 +25,7 @@ func New() *Server {
 
 	apiGroup := app.Group("/api/v1")
 	api.RegisterRoutes(apiGroup, context)
+	app.Static("/assets/images", "./public/images")
 
 	return &Server{
 		app,

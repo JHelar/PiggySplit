@@ -1,4 +1,4 @@
-module github.com/JHelar/PiggyPay.git
+module github.com/JHelar/PiggySplit.git
 
 go 1.24.1
 

@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/JHelar/PiggyPay.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/db/generated"
 
 	_ "embed"
 

@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/JHelar/PiggyPay.git/internal/db/generated"
-	"github.com/JHelar/PiggyPay.git/pkg/stream"
+	"github.com/JHelar/PiggySplit.git/internal/db/generated"
+	"github.com/JHelar/PiggySplit.git/internal/stream"
 )
 
 func notifyGroupMembers(groupId int64, members []generated.GetGroupMemberTotalsRow, ctx context.Context, api *ApiContext) {

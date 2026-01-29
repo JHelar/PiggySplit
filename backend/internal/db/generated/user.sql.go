@@ -171,6 +171,18 @@ func (q *Queries) GetSignInToken(ctx context.Context, email string) (GetSignInTo
 	return i, err
 }
 
+const getSignInTokenExpiry = `-- name: GetSignInTokenExpiry :one
+SELECT expires_at FROM user_sign_in_tokens
+    WHERE email=?
+`
+
+func (q *Queries) GetSignInTokenExpiry(ctx context.Context, email string) (time.Time, error) {
+	row := q.db.QueryRowContext(ctx, getSignInTokenExpiry, email)
+	var expires_at time.Time
+	err := row.Scan(&expires_at)
+	return expires_at, err
+}
+
 const getUserByEmail = `-- name: GetUserByEmail :one
 SELECT id, first_name, last_name, phone_number, email, created_at, updated_at, last_seen_at FROM users
     WHERE email=?

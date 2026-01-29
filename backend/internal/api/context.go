@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/JHelar/PiggyPay.git/internal/db"
-	"github.com/JHelar/PiggyPay.git/pkg/stream"
+	"github.com/JHelar/PiggySplit.git/internal/db"
+	"github.com/JHelar/PiggySplit.git/internal/stream"
 )
 
 type ApiContext struct {
