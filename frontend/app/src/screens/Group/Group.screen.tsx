@@ -1,9 +1,8 @@
-import { type MacroMessageDescriptor, msg } from "@lingui/core/macro";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { FlashList } from "@shopify/flash-list";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { use, useCallback, useMemo } from "react";
+import { use, useMemo } from "react";
 import { View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { deleteExpense, type Expense } from "@/api/expense";
@@ -14,8 +13,8 @@ import { Clouds } from "@/components/SVG/Clouds";
 import { Pig } from "@/components/SVG/Pig";
 import { useScreenFocusSetTheme } from "@/hooks/useScreenFocusSetTheme";
 import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
+import { Avatar, type AvatarType } from "@/ui/components/Avatar";
 import { Button } from "@/ui/components/Button";
-import { Gauge, useGaugeDriver } from "@/ui/components/Gauge";
 import { Icon } from "@/ui/components/Icon";
 import { IconButton } from "@/ui/components/IconButton";
 import { InfoSquare } from "@/ui/components/InfoSquare";
@@ -26,12 +25,11 @@ import { Text } from "@/ui/components/Text";
 import { includes } from "@/utils/includes";
 import type { GroupScreenProps } from "./Group.types";
 
-const GroupStateToHumanReadable: Record<GroupState, MacroMessageDescriptor> = {
-	[GroupState.enum.Archived]: msg`Archived`,
-	[GroupState.enum.Expenses]: msg`Adding expenses`,
-	[GroupState.enum.Generating]: msg`Calculating group dept`,
-	[GroupState.enum.Paying]: msg`Resolving group dept`,
-	[GroupState.enum.Resolved]: msg`Group dept resolved`,
+const MemberStateToAvatarType: Record<MemberState, AvatarType> = {
+	[MemberState.enum.Adding]: "idle",
+	[MemberState.enum.Paying]: "paying",
+	[MemberState.enum.Resolved]: "payed",
+	[MemberState.enum.Ready]: "ready",
 };
 
 type ExpenseListItemProps = {
@@ -118,24 +116,6 @@ export function GroupScreen({ query }: GroupScreenProps) {
 	const router = useRouter();
 	const { mutate: setReadyToPay, isPending } = useMutation(memberReadyToPay());
 	const { theme } = useUnistyles();
-	const { t } = useLingui();
-	const formatGaugeText = useCallback(
-		(currentValue: number, minValue: number, maxValue: number) => {
-			return `${currentValue} / ${maxValue}`;
-		},
-		[],
-	);
-
-	const gauge = useGaugeDriver({
-		currentValue: group.members.filter(({ member_state }) =>
-			group.group_state === GroupState.enum.Expenses
-				? MemberState.enum.Ready === member_state
-				: MemberState.enum.Resolved === member_state,
-		).length,
-		maxValue: group.members.length,
-		minValue: 0,
-		format: formatGaugeText,
-	});
 
 	useScreenFocusSetTheme(group.group_theme);
 
@@ -231,56 +211,88 @@ export function GroupScreen({ query }: GroupScreenProps) {
 	}
 
 	return (
-		<FlashList
-			data={group.expenses}
-			keyExtractor={({ id }) => id.toString()}
-			style={styles.container}
-			ListHeaderComponent={
-				<InfoSquare
-					title={<Text variant="title">{group.group_name}</Text>}
-					info={
-						group.group_state === GroupState.enum.Resolved ? (
-							<Pig canvas animation="bobbing" />
-						) : (
-							<Gauge
-								driver={gauge}
-								icon={
-									<Icon
-										name={
-											group.group_state === GroupState.enum.Expenses
-												? "check"
-												: "euro-symbol"
-										}
+		<>
+			<InfoSquare
+				style={styles.infoSquare}
+				title={<Text variant="headline">{group.group_name}</Text>}
+				info={
+					group.group_state === GroupState.enum.Resolved ? (
+						<Pig canvas animation="bobbing" />
+					) : (
+						<>
+							<View style={styles.headingContainer}>
+								<View style={styles.headingRow}>
+									<Text variant="subtitle" style={styles.headingValue}>
+										{group.total_expenses} / {group.member_contribution}
+									</Text>
+									<Text variant="body">
+										<Trans>Total / You</Trans>
+									</Text>
+								</View>
+								<View style={styles.headingRow}>
+									<Text variant="subtitle" style={styles.headingValue}>
+										{group.pay_per_member} /{" "}
+										{group.member_contribution - group.pay_per_member}
+									</Text>
+									<Text variant="body">
+										<Trans>PPM / Dept</Trans>
+									</Text>
+								</View>
+							</View>
+							<View style={styles.members}>
+								{group.members.map((member) => (
+									<Avatar
+										firstName={member.first_name}
+										lastName={member.last_name}
+										key={member.member_id}
+										type={MemberStateToAvatarType[member.member_state]}
 									/>
-								}
-							/>
-						)
-					}
-					cta={
-						<Text variant="body">
-							{t(GroupStateToHumanReadable[group.group_state])}
-						</Text>
-					}
-				/>
-			}
-			ListHeaderComponentStyle={styles.header}
-			renderItem={({ item }) => (
-				<ExpenseListItem
-					expense={item}
-					groupId={group.id}
-					groupState={group.group_state}
-				/>
-			)}
-			scrollIndicatorInsets={{
-				right: -theme.gap(2),
-			}}
-			ListFooterComponent={<ScreenContentFooterSpacer />}
-			ItemSeparatorComponent={() => <View style={styles.spacer} />}
-		/>
+								))}
+							</View>
+						</>
+					)
+				}
+			/>
+			<FlashList
+				data={group.expenses}
+				keyExtractor={({ id }) => id.toString()}
+				style={styles.container}
+				ListHeaderComponentStyle={styles.header}
+				renderItem={({ item }) => (
+					<ExpenseListItem
+						expense={item}
+						groupId={group.id}
+						groupState={group.group_state}
+					/>
+				)}
+				scrollIndicatorInsets={{
+					right: -theme.gap(2),
+				}}
+				ListFooterComponent={<ScreenContentFooterSpacer />}
+				ItemSeparatorComponent={() => <View style={styles.spacer} />}
+			/>
+		</>
 	);
 }
 
 const styles = StyleSheet.create((theme, rt) => ({
+	infoSquare: {
+		marginBottom: theme.gap(4),
+	},
+	headingContainer: {
+		width: "100%",
+		justifyContent: "space-between",
+		flexDirection: "row",
+		columnGap: theme.gap(2),
+	},
+	headingRow: {
+		rowGap: theme.gap(1),
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	headingValue: {
+		fontWeight: "500",
+	},
 	clouds: {
 		position: "absolute",
 		top: 0,
@@ -296,7 +308,7 @@ const styles = StyleSheet.create((theme, rt) => ({
 		textAlign: "center",
 	},
 	container: {
-		paddingTop: theme.gap(1),
+		flex: 1,
 	},
 	header: {
 		paddingBottom: theme.gap(4),
@@ -315,5 +327,10 @@ const styles = StyleSheet.create((theme, rt) => ({
 			height: 0,
 			width: 1,
 		},
+	},
+	members: {
+		width: "100%",
+		flexDirection: "row",
+		justifyContent: "space-evenly",
 	},
 }));

@@ -11,7 +11,12 @@ import (
 
 const createReceipt = `-- name: CreateReceipt :one
 INSERT INTO group_member_receipts (group_id, user_id, total_dept, current_dept) VALUES (?, ?, ?, ?)
-    RETURNING id, user_id, total_dept
+    ON CONFLICT (group_id, user_id)
+        DO UPDATE
+            SET
+                total_dept=excluded.total_dept,
+                current_dept=excluded.current_dept
+    RETURNING id, group_id, user_id, total_dept, current_dept, updated_at, create_at
 `
 
 type CreateReceiptParams struct {
@@ -21,21 +26,23 @@ type CreateReceiptParams struct {
 	CurrentDept float64 `json:"current_dept"`
 }
 
-type CreateReceiptRow struct {
-	ID        int64   `json:"id"`
-	UserID    int64   `json:"user_id"`
-	TotalDept float64 `json:"total_dept"`
-}
-
-func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (CreateReceiptRow, error) {
+func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (GroupMemberReceipt, error) {
 	row := q.db.QueryRowContext(ctx, createReceipt,
 		arg.GroupID,
 		arg.UserID,
 		arg.TotalDept,
 		arg.CurrentDept,
 	)
-	var i CreateReceiptRow
-	err := row.Scan(&i.ID, &i.UserID, &i.TotalDept)
+	var i GroupMemberReceipt
+	err := row.Scan(
+		&i.ID,
+		&i.GroupID,
+		&i.UserID,
+		&i.TotalDept,
+		&i.CurrentDept,
+		&i.UpdatedAt,
+		&i.CreateAt,
+	)
 	return i, err
 }
 

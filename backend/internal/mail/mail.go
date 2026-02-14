@@ -14,7 +14,8 @@ func SendVerificationEmail(toEmail string, code string) error {
 
 	if err := VerificationTemplate.Execute(&sb, struct {
 		VerificationCode string
-	}{VerificationCode: code}); err != nil {
+		BaseUrl          string
+	}{VerificationCode: code, BaseUrl: "https://192.168.50.202:8080"}); err != nil {
 		return err
 	}
 

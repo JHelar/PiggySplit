@@ -59,45 +59,60 @@ func (q *Queries) CreateGroup(ctx context.Context, arg CreateGroupParams) (Group
 }
 
 const getGroupForUserById = `-- name: GetGroupForUserById :one
-SELECT groups.id AS id,
-    groups.display_name AS group_name,
-    groups.state AS group_state,
-    groups.color_theme AS group_theme,
-    groups.created_at AS created_at,
-    groups.updated_at AS updated_at,
-    group_members.role AS member_role,
-    group_members.state AS member_state,
-    (
-        SELECT IFNULL(SUM(group_expenses.cost), 0.0)
-        FROM group_expenses
-        WHERE group_expenses.group_id = groups.id
-    ) AS total_expenses
-    FROM groups
-    INNER JOIN group_members
-        ON group_members.group_id=groups.id
-    WHERE groups.id=? AND group_members.user_id=? AND groups.state!='group_state:archived'
+SELECT g.id AS id,
+    g.display_name AS group_name,
+    g.state AS group_state,
+    g.color_theme AS group_theme,
+    g.created_at AS created_at,
+    g.updated_at AS updated_at,
+    gm.role AS member_role,
+    gm.state AS member_state,
+    IFNULL(SUM(e.cost), 0.0) AS total_expenses,
+    IFNULL(
+        SUM(e.cost) / NULLIF(COUNT(DISTINCT m.user_id), 0),
+        0.0
+    ) AS pay_per_member,
+
+    IFNULL(
+        SUM(CASE WHEN e.user_id = gm.user_id THEN e.cost ELSE 0 END),
+        0.0
+    ) AS member_contribution
+
+    FROM groups g
+    INNER JOIN group_members gm
+        ON gm.group_id = g.id
+    LEFT JOIN group_expenses e
+        ON e.group_id = g.id
+    LEFT JOIN group_members m
+        ON m.group_id = g.id
+    WHERE gm.user_id = ?
+        AND g.state != 'group_state:archived'
+        AND g.id=?
+    GROUP BY g.id, gm.user_id
     LIMIT 1
 `
 
 type GetGroupForUserByIdParams struct {
-	ID     int64 `json:"id"`
 	UserID int64 `json:"user_id"`
+	ID     int64 `json:"id"`
 }
 
 type GetGroupForUserByIdRow struct {
-	ID            int64       `json:"id"`
-	GroupName     string      `json:"group_name"`
-	GroupState    string      `json:"group_state"`
-	GroupTheme    string      `json:"group_theme"`
-	CreatedAt     time.Time   `json:"created_at"`
-	UpdatedAt     time.Time   `json:"updated_at"`
-	MemberRole    string      `json:"member_role"`
-	MemberState   string      `json:"member_state"`
-	TotalExpenses interface{} `json:"total_expenses"`
+	ID                 int64       `json:"id"`
+	GroupName          string      `json:"group_name"`
+	GroupState         string      `json:"group_state"`
+	GroupTheme         string      `json:"group_theme"`
+	CreatedAt          time.Time   `json:"created_at"`
+	UpdatedAt          time.Time   `json:"updated_at"`
+	MemberRole         string      `json:"member_role"`
+	MemberState        string      `json:"member_state"`
+	TotalExpenses      interface{} `json:"total_expenses"`
+	PayPerMember       interface{} `json:"pay_per_member"`
+	MemberContribution interface{} `json:"member_contribution"`
 }
 
 func (q *Queries) GetGroupForUserById(ctx context.Context, arg GetGroupForUserByIdParams) (GetGroupForUserByIdRow, error) {
-	row := q.db.QueryRowContext(ctx, getGroupForUserById, arg.ID, arg.UserID)
+	row := q.db.QueryRowContext(ctx, getGroupForUserById, arg.UserID, arg.ID)
 	var i GetGroupForUserByIdRow
 	err := row.Scan(
 		&i.ID,
@@ -109,27 +124,34 @@ func (q *Queries) GetGroupForUserById(ctx context.Context, arg GetGroupForUserBy
 		&i.MemberRole,
 		&i.MemberState,
 		&i.TotalExpenses,
+		&i.PayPerMember,
+		&i.MemberContribution,
 	)
 	return i, err
 }
 
 const getGroupsByUserId = `-- name: GetGroupsByUserId :many
-SELECT groups.id AS id,
-    groups.display_name AS group_name,
-    groups.state AS group_state,
-    groups.color_theme AS group_theme,
-    groups.created_at AS created_at,
-    groups.updated_at AS updated_at,
-    (
-        SELECT IFNULL(SUM(group_expenses.cost), 0.0)
-        FROM group_expenses
-        WHERE group_expenses.group_id = groups.id
-    ) AS total_expenses
-    FROM groups
-    INNER JOIN group_members
-        ON group_members.group_id=groups.id
-    WHERE group_members.user_id=? AND groups.state!='group_state:archived'
-    ORDER BY group_members.created_at DESC
+SELECT
+    g.id AS id,
+    g.display_name AS group_name,
+    g.state AS group_state,
+    g.color_theme AS group_theme,
+    g.created_at AS created_at,
+    g.updated_at AS updated_at,
+
+    IFNULL(SUM(e.cost), 0.0) AS total_expenses,
+    IFNULL(SUM(e.cost), 0.0) / COUNT(DISTINCT m.user_id) AS pay_per_member
+FROM groups g
+INNER JOIN group_members gm
+    ON gm.group_id = g.id
+LEFT JOIN group_expenses e
+    ON e.group_id = g.id
+LEFT JOIN group_members m
+    ON m.group_id = g.id
+WHERE gm.user_id = ?
+  AND g.state != 'group_state:archived'
+GROUP BY g.id
+ORDER BY gm.created_at DESC
 `
 
 type GetGroupsByUserIdRow struct {
@@ -140,6 +162,7 @@ type GetGroupsByUserIdRow struct {
 	CreatedAt     time.Time   `json:"created_at"`
 	UpdatedAt     time.Time   `json:"updated_at"`
 	TotalExpenses interface{} `json:"total_expenses"`
+	PayPerMember  int64       `json:"pay_per_member"`
 }
 
 func (q *Queries) GetGroupsByUserId(ctx context.Context, userID int64) ([]GetGroupsByUserIdRow, error) {
@@ -159,6 +182,7 @@ func (q *Queries) GetGroupsByUserId(ctx context.Context, userID int64) ([]GetGro
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.TotalExpenses,
+			&i.PayPerMember,
 		); err != nil {
 			return nil, err
 		}

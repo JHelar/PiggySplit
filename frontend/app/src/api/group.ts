@@ -31,6 +31,7 @@ const GroupBase = z.object({
 	created_at: z.coerce.date(),
 	updated_at: z.coerce.date(),
 	total_expenses: z.number(),
+	pay_per_member: z.number(),
 	expenses: z.array(Expense),
 	members: z.array(Member),
 });
@@ -43,6 +44,7 @@ export const Group = GroupBase.and(
 	z.object({
 		member_role: MemberRole,
 		member_state: MemberState,
+		member_contribution: z.number(),
 	}),
 );
 export type Group = z.output<typeof Group>;

@@ -3,13 +3,13 @@ import { StyleSheet } from "react-native-unistyles";
 import { renderSlot } from "@/ui/utils/renderSlot";
 import type { InfoSquareProps } from "./InfoSquare.types";
 
-export function InfoSquare({ cta, info, title }: InfoSquareProps) {
+export function InfoSquare({ cta, info, title, style }: InfoSquareProps) {
 	const Title = renderSlot(title);
 	const Info = renderSlot(info);
 	const CTA = renderSlot(cta);
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			{Title}
 			{Info}
 			{CTA}
@@ -22,6 +22,6 @@ const styles = StyleSheet.create((theme) => ({
 		height: 288,
 		justifyContent: "space-between",
 		alignItems: "center",
-		paddingHorizontal: theme.gap(8),
+		paddingHorizontal: theme.gap(5),
 	},
 }));

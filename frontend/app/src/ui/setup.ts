@@ -38,6 +38,8 @@ export type AppTheme = {
 		secondary: string;
 		transparent: string;
 		inverted: string;
+		warning: string;
+		success: string;
 	};
 	text: {
 		color: {
@@ -163,6 +165,8 @@ const blueLight: AppTheme = {
 		inverted: staticPalette.light.gray1200,
 		secondary: staticPalette.light.gray200,
 		transparent: staticPalette.light.grayOpacity400,
+		success: staticPalette.light.success,
+		warning: staticPalette.light.warning,
 	},
 	text: {
 		color: {
@@ -194,6 +198,8 @@ const greenLight: AppTheme = {
 		secondary: staticPalette.light.gray200,
 		primary: accentPalette.greenLight.accent1100,
 		transparent: staticPalette.light.grayOpacity400,
+		success: staticPalette.light.success,
+		warning: staticPalette.light.warning,
 	},
 	text: {
 		color: {

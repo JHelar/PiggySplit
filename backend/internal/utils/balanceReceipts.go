@@ -20,7 +20,7 @@ type ReceiptNode struct {
 	TotalDept float64
 }
 
-func BalanceReceipts(receipts []generated.CreateReceiptRow) ([]Transaction, error) {
+func BalanceReceipts(receipts []generated.GroupMemberReceipt) ([]Transaction, error) {
 	var nodes []*ReceiptNode
 	for _, receipt := range receipts {
 		nodes = append(nodes, &ReceiptNode{

@@ -264,7 +264,7 @@ func checkGroupReadyState(groupId int64, api *ApiContext) {
 		}
 
 		payPerMember := groupTotal / float64(len(members))
-		var receipts []generated.CreateReceiptRow
+		var receipts []generated.GroupMemberReceipt
 
 		for _, member := range members {
 			total_dept := member.Total.(float64) - payPerMember

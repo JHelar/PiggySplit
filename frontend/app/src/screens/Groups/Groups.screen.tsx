@@ -5,6 +5,7 @@ import { use } from "react";
 import { View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import type { GroupWithMembers } from "@/api/group";
+import { MembersRow } from "@/components/MembersRow";
 import { Clouds } from "@/components/SVG/Clouds";
 import { Button } from "@/ui/components/Button";
 import { Icon } from "@/ui/components/Icon";
@@ -24,17 +25,7 @@ function GroupListItem({ group, onPress }: GroupListItemProps) {
 			middle={
 				<View style={styles.itemMiddle}>
 					<Text variant="small">{group.group_name}</Text>
-					<View style={styles.membersRow}>
-						{group.members.map((member, index, members) => (
-							<Icon
-								key={index}
-								name="initials"
-								firstName={member.first_name}
-								lastName={member.last_name}
-								style={[styles.icon, { zIndex: members.length - index }]}
-							/>
-						))}
-					</View>
+					<MembersRow members={group.members} />
 				</View>
 			}
 			right={
@@ -125,17 +116,5 @@ const styles = StyleSheet.create((theme, rt) => ({
 	},
 	itemMiddle: {
 		rowGap: theme.gap(1),
-	},
-	icon: {
-		...theme.elevation(1),
-		shadowOffset: {
-			height: 0,
-			width: 1,
-		},
-		marginLeft: -theme.gap(1),
-	},
-	membersRow: {
-		paddingLeft: theme.gap(1),
-		flexDirection: "row",
 	},
 }));

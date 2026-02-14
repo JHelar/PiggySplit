@@ -113,5 +113,7 @@ export const staticPalette = {
 		grayOpacity100: "rgba(0, 0, 0, 0.01)",
 		white: "#ffffff",
 		black: "#000000",
+		success: "#34C759",
+		warning: "#FFCC00",
 	},
 };

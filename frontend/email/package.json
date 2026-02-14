@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" email dev",
-		"export": "VERIFICATION_CODE_PLACEHOLDER=\"{{ .VerificationCode }}\" BASE_URL=\"https://192.168.50.202:8080\" NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" email export --outDir ../../backend/templates --pretty"
+		"export": "VERIFICATION_CODE_PLACEHOLDER=\"{{ .VerificationCode }}\" BASE_URL=\"{{ .BaseUrl }}\" NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" email export --outDir ../../backend/templates --pretty"
 	},
 	"devDependencies": {
 		"@react-email/preview-server": "5.2.5",
