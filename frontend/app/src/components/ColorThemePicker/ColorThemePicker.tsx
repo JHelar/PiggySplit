@@ -67,7 +67,7 @@ const styles = StyleSheet.create((theme) => ({
 		borderRadius: theme.radius.large,
 		borderColor: theme.border.primary,
 		borderWidth: 1,
-		backgroundColor: theme.background.surface,
+		backgroundColor: theme.surface.secondary,
 		flexDirection: "row",
 		justifyContent: "space-between",
 	},

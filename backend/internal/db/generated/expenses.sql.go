@@ -25,7 +25,12 @@ INSERT INTO group_expenses (name, cost, group_id, user_id)
             SELECT users.last_name
             FROM users
             WHERE users.id = group_expenses.user_id
-        ) AS last_name
+        ) AS last_name,
+        (
+            SELECT groups.currency_code
+            FROM groups
+            WHERE groups.id = group_expenses.group_id
+        ) AS currency_code
 `
 
 type AddExpenseParams struct {
@@ -36,11 +41,12 @@ type AddExpenseParams struct {
 }
 
 type AddExpenseRow struct {
-	ID        int64   `json:"id"`
-	Name      string  `json:"name"`
-	Cost      float64 `json:"cost"`
-	FirstName string  `json:"first_name"`
-	LastName  string  `json:"last_name"`
+	ID           int64   `json:"id"`
+	Name         string  `json:"name"`
+	Cost         float64 `json:"cost"`
+	FirstName    string  `json:"first_name"`
+	LastName     string  `json:"last_name"`
+	CurrencyCode string  `json:"currency_code"`
 }
 
 func (q *Queries) AddExpense(ctx context.Context, arg AddExpenseParams) (AddExpenseRow, error) {
@@ -57,12 +63,23 @@ func (q *Queries) AddExpense(ctx context.Context, arg AddExpenseParams) (AddExpe
 		&i.Cost,
 		&i.FirstName,
 		&i.LastName,
+		&i.CurrencyCode,
 	)
 	return i, err
 }
 
 const getExpenseById = `-- name: GetExpenseById :one
-SELECT id, name, cost FROM group_expenses
+SELECT group_expenses.id AS id, 
+    group_expenses.name AS name, 
+    group_expenses.cost as cost, 
+    groups.currency_code AS currency_code,
+    users.first_name AS first_name,
+    users.last_name AS last_name
+    FROM group_expenses
+        INNER JOIN groups
+            ON groups.id=group_expenses.group_id
+        INNER JOIN users
+            ON users.id=group_expenses.user_id
     WHERE group_expenses.id=? AND group_expenses.group_id=?
     AND EXISTS (
         SELECT 1
@@ -79,15 +96,25 @@ type GetExpenseByIdParams struct {
 }
 
 type GetExpenseByIdRow struct {
-	ID   int64   `json:"id"`
-	Name string  `json:"name"`
-	Cost float64 `json:"cost"`
+	ID           int64   `json:"id"`
+	Name         string  `json:"name"`
+	Cost         float64 `json:"cost"`
+	CurrencyCode string  `json:"currency_code"`
+	FirstName    string  `json:"first_name"`
+	LastName     string  `json:"last_name"`
 }
 
 func (q *Queries) GetExpenseById(ctx context.Context, arg GetExpenseByIdParams) (GetExpenseByIdRow, error) {
 	row := q.db.QueryRowContext(ctx, getExpenseById, arg.ID, arg.GroupID, arg.UserID)
 	var i GetExpenseByIdRow
-	err := row.Scan(&i.ID, &i.Name, &i.Cost)
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Cost,
+		&i.CurrencyCode,
+		&i.FirstName,
+		&i.LastName,
+	)
 	return i, err
 }
 
@@ -97,10 +124,13 @@ SELECT
     group_expenses.name AS name,
     group_expenses.cost as cost,
     users.first_name AS first_name,
-    users.last_name AS last_name
+    users.last_name AS last_name,
+    groups.currency_code as currency_code
     FROM group_expenses
         INNER JOIN users
             ON users.id=group_expenses.user_id
+        INNER JOIN groups
+            ON groups.id=group_expenses.group_id
     WHERE group_expenses.group_id=?
     AND EXISTS (
         SELECT 1
@@ -116,11 +146,12 @@ type GetGroupExpensesParams struct {
 }
 
 type GetGroupExpensesRow struct {
-	ID        int64   `json:"id"`
-	Name      string  `json:"name"`
-	Cost      float64 `json:"cost"`
-	FirstName string  `json:"first_name"`
-	LastName  string  `json:"last_name"`
+	ID           int64   `json:"id"`
+	Name         string  `json:"name"`
+	Cost         float64 `json:"cost"`
+	FirstName    string  `json:"first_name"`
+	LastName     string  `json:"last_name"`
+	CurrencyCode string  `json:"currency_code"`
 }
 
 func (q *Queries) GetGroupExpenses(ctx context.Context, arg GetGroupExpensesParams) ([]GetGroupExpensesRow, error) {
@@ -138,6 +169,7 @@ func (q *Queries) GetGroupExpenses(ctx context.Context, arg GetGroupExpensesPara
 			&i.Cost,
 			&i.FirstName,
 			&i.LastName,
+			&i.CurrencyCode,
 		); err != nil {
 			return nil, err
 		}

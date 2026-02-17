@@ -7,7 +7,7 @@ import (
 )
 
 func TestBalanceReceipts(t *testing.T) {
-	var receipts = []generated.CreateReceiptRow{
+	var receipts = []generated.GroupMemberReceipt{
 		{
 			ID:        1,
 			TotalDept: -40,

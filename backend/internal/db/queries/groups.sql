@@ -6,6 +6,7 @@ SELECT
     g.color_theme AS group_theme,
     g.created_at AS created_at,
     g.updated_at AS updated_at,
+    g.currency_code AS currency_code,
 
     IFNULL(SUM(e.cost), 0.0) AS total_expenses,
     IFNULL(SUM(e.cost), 0.0) / COUNT(DISTINCT m.user_id) AS pay_per_member
@@ -22,8 +23,8 @@ GROUP BY g.id
 ORDER BY gm.created_at DESC;
 
 -- name: CreateGroup :one
-INSERT INTO groups (display_name, state, color_theme) VALUES (?, ?, ?)
-    RETURNING id, display_name, state, color_theme, created_at, updated_at;
+INSERT INTO groups (display_name, state, color_theme, currency_code) VALUES (?, ?, ?, ?)
+    RETURNING id, display_name, state, color_theme, currency_code, created_at, updated_at;
 
 -- name: UpdateGroupById :one
 UPDATE groups
@@ -60,6 +61,7 @@ SELECT g.id AS id,
     g.color_theme AS group_theme,
     g.created_at AS created_at,
     g.updated_at AS updated_at,
+    g.currency_code AS currency_code,
     gm.role AS member_role,
     gm.state AS member_state,
     IFNULL(SUM(e.cost), 0.0) AS total_expenses,

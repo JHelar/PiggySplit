@@ -22,6 +22,7 @@ import { ListItem } from "@/ui/components/ListItem";
 import { ScreenContentFooter } from "@/ui/components/ScreenContentFooter";
 import { ScreenContentFooterSpacer } from "@/ui/components/ScreenContentFooter/ScreenContentFooter";
 import { Text } from "@/ui/components/Text";
+import { formatCurrency } from "@/utils/formatValue";
 import { includes } from "@/utils/includes";
 import type { GroupScreenProps } from "./Group.types";
 
@@ -61,7 +62,11 @@ function ExpenseListItem({
 			}
 			right={
 				<View>
-					<Text variant="body">{expense.cost}kr</Text>
+					<Text variant="body">
+						{formatCurrency(expense.cost, {
+							currencyCode: expense.currency_code,
+						})}
+					</Text>
 					{includes(
 						[GroupState.enum.Paying, GroupState.enum.Generating],
 						groupState,
@@ -116,6 +121,10 @@ export function GroupScreen({ query }: GroupScreenProps) {
 	const router = useRouter();
 	const { mutate: setReadyToPay, isPending } = useMutation(memberReadyToPay());
 	const { theme } = useUnistyles();
+	const { t } = useLingui();
+
+	const dept = group.member_contribution - group.pay_per_member;
+	const deptTitle = dept < 0 ? t`Dept` : t`Owed`;
 
 	useScreenFocusSetTheme(group.group_theme);
 
@@ -222,21 +231,48 @@ export function GroupScreen({ query }: GroupScreenProps) {
 						<>
 							<View style={styles.headingContainer}>
 								<View style={styles.headingRow}>
-									<Text variant="subtitle" style={styles.headingValue}>
-										{group.total_expenses} / {group.member_contribution}
-									</Text>
-									<Text variant="body">
-										<Trans>Total / You</Trans>
-									</Text>
+									<View style={styles.headingValueContainer}>
+										<Text variant="subtitle" style={styles.headingValue}>
+											{formatCurrency(group.total_expenses, {
+												currencyCode: group.currency_code,
+											})}
+										</Text>
+										<Text variant="body" style={styles.headingTitle}>
+											<Trans>Total</Trans>
+										</Text>
+									</View>
+									<View style={styles.headingValueContainer}>
+										<Text variant="subtitle" style={styles.headingValue}>
+											{formatCurrency(group.pay_per_member, {
+												currencyCode: group.currency_code,
+											})}
+										</Text>
+										<Text variant="body" style={styles.headingTitle}>
+											<Trans>Pay per member</Trans>
+										</Text>
+									</View>
 								</View>
 								<View style={styles.headingRow}>
-									<Text variant="subtitle" style={styles.headingValue}>
-										{group.pay_per_member} /{" "}
-										{group.member_contribution - group.pay_per_member}
-									</Text>
-									<Text variant="body">
-										<Trans>PPM / Dept</Trans>
-									</Text>
+									<View style={styles.headingValueContainer}>
+										<Text variant="subtitle" style={styles.headingValue}>
+											{formatCurrency(group.member_contribution, {
+												currencyCode: group.currency_code,
+											})}
+										</Text>
+										<Text variant="body" style={styles.headingTitle}>
+											<Trans>Your contribution</Trans>
+										</Text>
+									</View>
+									<View style={styles.headingValueContainer}>
+										<Text variant="subtitle" style={styles.headingValue}>
+											{formatCurrency(dept, {
+												currencyCode: group.currency_code,
+											})}
+										</Text>
+										<Text variant="body" style={styles.headingTitle}>
+											{deptTitle}
+										</Text>
+									</View>
 								</View>
 							</View>
 							<View style={styles.members}>
@@ -280,18 +316,27 @@ const styles = StyleSheet.create((theme, rt) => ({
 		marginBottom: theme.gap(4),
 	},
 	headingContainer: {
+		rowGap: theme.gap(3),
 		width: "100%",
-		justifyContent: "space-between",
-		flexDirection: "row",
-		columnGap: theme.gap(2),
 	},
 	headingRow: {
+		justifyContent: "space-between",
+		flexDirection: "row",
+	},
+	headingValueContainer: {
+		flexGrow: 1,
+		flexShrink: 0,
+		flexBasis: 0,
 		rowGap: theme.gap(1),
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	headingValue: {
 		fontWeight: "500",
+		textAlign: "center",
+	},
+	headingTitle: {
+		textAlign: "center",
 	},
 	clouds: {
 		position: "absolute",

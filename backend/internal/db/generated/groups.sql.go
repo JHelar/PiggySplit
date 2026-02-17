@@ -34,24 +34,31 @@ func (q *Queries) ArchiveGroupById(ctx context.Context, arg ArchiveGroupByIdPara
 }
 
 const createGroup = `-- name: CreateGroup :one
-INSERT INTO groups (display_name, state, color_theme) VALUES (?, ?, ?)
-    RETURNING id, display_name, state, color_theme, created_at, updated_at
+INSERT INTO groups (display_name, state, color_theme, currency_code) VALUES (?, ?, ?, ?)
+    RETURNING id, display_name, state, color_theme, currency_code, created_at, updated_at
 `
 
 type CreateGroupParams struct {
-	DisplayName string `json:"display_name"`
-	State       string `json:"state"`
-	ColorTheme  string `json:"color_theme"`
+	DisplayName  string `json:"display_name"`
+	State        string `json:"state"`
+	ColorTheme   string `json:"color_theme"`
+	CurrencyCode string `json:"currency_code"`
 }
 
 func (q *Queries) CreateGroup(ctx context.Context, arg CreateGroupParams) (Group, error) {
-	row := q.db.QueryRowContext(ctx, createGroup, arg.DisplayName, arg.State, arg.ColorTheme)
+	row := q.db.QueryRowContext(ctx, createGroup,
+		arg.DisplayName,
+		arg.State,
+		arg.ColorTheme,
+		arg.CurrencyCode,
+	)
 	var i Group
 	err := row.Scan(
 		&i.ID,
 		&i.DisplayName,
 		&i.State,
 		&i.ColorTheme,
+		&i.CurrencyCode,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -65,6 +72,7 @@ SELECT g.id AS id,
     g.color_theme AS group_theme,
     g.created_at AS created_at,
     g.updated_at AS updated_at,
+    g.currency_code AS currency_code,
     gm.role AS member_role,
     gm.state AS member_state,
     IFNULL(SUM(e.cost), 0.0) AS total_expenses,
@@ -104,6 +112,7 @@ type GetGroupForUserByIdRow struct {
 	GroupTheme         string      `json:"group_theme"`
 	CreatedAt          time.Time   `json:"created_at"`
 	UpdatedAt          time.Time   `json:"updated_at"`
+	CurrencyCode       string      `json:"currency_code"`
 	MemberRole         string      `json:"member_role"`
 	MemberState        string      `json:"member_state"`
 	TotalExpenses      interface{} `json:"total_expenses"`
@@ -121,6 +130,7 @@ func (q *Queries) GetGroupForUserById(ctx context.Context, arg GetGroupForUserBy
 		&i.GroupTheme,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.CurrencyCode,
 		&i.MemberRole,
 		&i.MemberState,
 		&i.TotalExpenses,
@@ -138,6 +148,7 @@ SELECT
     g.color_theme AS group_theme,
     g.created_at AS created_at,
     g.updated_at AS updated_at,
+    g.currency_code AS currency_code,
 
     IFNULL(SUM(e.cost), 0.0) AS total_expenses,
     IFNULL(SUM(e.cost), 0.0) / COUNT(DISTINCT m.user_id) AS pay_per_member
@@ -161,6 +172,7 @@ type GetGroupsByUserIdRow struct {
 	GroupTheme    string      `json:"group_theme"`
 	CreatedAt     time.Time   `json:"created_at"`
 	UpdatedAt     time.Time   `json:"updated_at"`
+	CurrencyCode  string      `json:"currency_code"`
 	TotalExpenses interface{} `json:"total_expenses"`
 	PayPerMember  int64       `json:"pay_per_member"`
 }
@@ -181,6 +193,7 @@ func (q *Queries) GetGroupsByUserId(ctx context.Context, userID int64) ([]GetGro
 			&i.GroupTheme,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.CurrencyCode,
 			&i.TotalExpenses,
 			&i.PayPerMember,
 		); err != nil {
@@ -220,14 +233,23 @@ type UpdateGroupByIdParams struct {
 	UserID      int64  `json:"user_id"`
 }
 
-func (q *Queries) UpdateGroupById(ctx context.Context, arg UpdateGroupByIdParams) (Group, error) {
+type UpdateGroupByIdRow struct {
+	ID          int64     `json:"id"`
+	DisplayName string    `json:"display_name"`
+	State       string    `json:"state"`
+	ColorTheme  string    `json:"color_theme"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+func (q *Queries) UpdateGroupById(ctx context.Context, arg UpdateGroupByIdParams) (UpdateGroupByIdRow, error) {
 	row := q.db.QueryRowContext(ctx, updateGroupById,
 		arg.DisplayName,
 		arg.ColorTheme,
 		arg.ID,
 		arg.UserID,
 	)
-	var i Group
+	var i UpdateGroupByIdRow
 	err := row.Scan(
 		&i.ID,
 		&i.DisplayName,

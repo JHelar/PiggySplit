@@ -12,6 +12,7 @@ import { Icon } from "@/ui/components/Icon";
 import { ListItem } from "@/ui/components/ListItem";
 import { ScreenContentFooterSpacer } from "@/ui/components/ScreenContentFooter/ScreenContentFooter";
 import { Text } from "@/ui/components/Text";
+import { formatCurrency } from "@/utils/formatValue";
 import type { GroupsScreenProps } from "./Groups.types";
 
 type GroupListItemProps = {
@@ -30,7 +31,11 @@ function GroupListItem({ group, onPress }: GroupListItemProps) {
 			}
 			right={
 				<View>
-					<Text variant="body">{group.total_expenses}kr</Text>
+					<Text variant="body">
+						{formatCurrency(group.total_expenses, {
+							currencyCode: group.currency_code,
+						})}
+					</Text>
 					<Icon name="chevron-right" />
 				</View>
 			}

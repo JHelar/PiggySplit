@@ -22,6 +22,6 @@ const styles = StyleSheet.create((theme) => ({
 		height: 288,
 		justifyContent: "space-between",
 		alignItems: "center",
-		paddingHorizontal: theme.gap(5),
+		paddingHorizontal: theme.gap(4),
 	},
 }));

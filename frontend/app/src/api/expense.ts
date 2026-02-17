@@ -18,6 +18,7 @@ export const Expense = z.object({
 	id: z.number(),
 	name: z.string(),
 	cost: z.number(),
+	currency_code: z.string(),
 	first_name: z.string(),
 	last_name: z.string(),
 });

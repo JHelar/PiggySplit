@@ -87,8 +87,9 @@ func mustGetGroupSession(c *fiber.Ctx) generated.GetGroupMemberRow {
 }
 
 type CreateGroup struct {
-	DisplayName string `json:"display_name" xml:"display_name" form:"display_name"`
-	ColorTheme  string `json:"color_theme" xml:"color_theme" form:"color_theme"`
+	DisplayName  string `json:"display_name" xml:"display_name" form:"display_name"`
+	ColorTheme   string `json:"color_theme" xml:"color_theme" form:"color_theme"`
+	CurrencyCode string `json:"currency_code" xml:"currency_code" form:"currency_code"`
 }
 
 func createGroup(c *fiber.Ctx, api *ApiContext) error {
@@ -106,9 +107,10 @@ func createGroup(c *fiber.Ctx, api *ApiContext) error {
 	session := mustGetUserSession(c)
 
 	group_result, err := db.Queries.CreateGroup(ctx, generated.CreateGroupParams{
-		DisplayName: payload.DisplayName,
-		ColorTheme:  payload.ColorTheme,
-		State:       string(GroupStateExpenses),
+		DisplayName:  payload.DisplayName,
+		ColorTheme:   payload.ColorTheme,
+		State:        string(GroupStateExpenses),
+		CurrencyCode: payload.CurrencyCode,
 	})
 
 	log.Printf("Group created %v", group_result)

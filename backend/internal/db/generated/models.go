@@ -10,12 +10,13 @@ import (
 )
 
 type Group struct {
-	ID          int64     `json:"id"`
-	DisplayName string    `json:"display_name"`
-	State       string    `json:"state"`
-	ColorTheme  string    `json:"color_theme"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID           int64     `json:"id"`
+	DisplayName  string    `json:"display_name"`
+	State        string    `json:"state"`
+	ColorTheme   string    `json:"color_theme"`
+	CurrencyCode string    `json:"currency_code"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
 type GroupExpense struct {

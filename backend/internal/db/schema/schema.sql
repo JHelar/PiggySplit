@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS groups (
     display_name TEXT NOT NULL,
     state TEXT NOT NULL,
     color_theme TEXT NOT NULL,
+    currency_code TEXT NOT NULL,
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

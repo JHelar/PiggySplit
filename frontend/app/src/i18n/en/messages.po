@@ -13,47 +13,141 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: screens/SignIn/components/VerifyCode.tsx:67
+#: src/screens/Group/Group.screen.tsx:215
+msgid "Add new expense"
+msgstr "Add new expense"
+
+#: src/screens/SignIn/components/VerifyCode.tsx:67
 msgid "An email with code has been sent to {email}"
 msgstr "An email with code has been sent to {email}"
 
-#: screens/Profile/Profile.screen.tsx:32
+#. placeholder {0}: group.group_name
+#: src/screens/EditGroup/EditGroup.screen.tsx:68
+msgid "Are you sure you want to delete {0}"
+msgstr "Are you sure you want to delete {0}"
+
+#: src/api/expense.ts:94
+msgid "Are you sure you want to delete the expense {name}"
+msgstr "Are you sure you want to delete the expense {name}"
+
+#. placeholder {0}: member.first_name
+#. placeholder {1}: member.last_name
+#: src/screens/EditGroup/EditGroup.screen.tsx:85
+msgid "Are you sure you want to remove {0} {1} from the group"
+msgstr "Are you sure you want to remove {0} {1} from the group"
+
+#: src/api/expense.ts:95
+#: src/screens/EditGroup/EditGroup.screen.tsx:69
+#: src/screens/EditGroup/EditGroup.screen.tsx:86
+#: src/screens/Profile/Profile.screen.tsx:24
+#: src/screens/SignIn/SignIn.route.tsx:15
 msgid "Cancel"
 msgstr "Cancel"
 
-#: screens/SignIn/components/VerifyCode.tsx:86
+#: src/screens/SignIn/components/VerifyCode.tsx:86
 msgid "Change email"
 msgstr "Change email"
 
-#: ui/components/Snackbar/Snackbar.tsx:29
+#: src/screens/EditExpense/EditExpense.route.tsx:19
+#: src/screens/EditGroup/EditGroup.route.tsx:19
+#: src/screens/EditProfile/EditProfile.route.tsx:16
+#: src/screens/NewExpense/NewExpense.route.tsx:19
+#: src/screens/NewGroup/NewGroup.route.tsx:16
+#: src/ui/components/Snackbar/Snackbar.tsx:29
 msgid "Close"
 msgstr "Close"
 
-#: screens/SignIn/components/CreateUser.tsx:99
+#: src/screens/EditGroup/EditGroup.screen.tsx:138
+#: src/screens/NewGroup/NewGroup.screen.tsx:57
+msgid "Color theme"
+msgstr "Color theme"
+
+#: src/screens/EditExpense/EditExpense.screen.tsx:78
+#: src/screens/NewExpense/NewExpense.screen.tsx:55
+msgid "Cost"
+msgstr "Cost"
+
+#: src/screens/SignIn/components/CreateUser.tsx:99
 msgid "Create"
 msgstr "Create"
 
-#: screens/Profile/Profile.screen.tsx:26
+#: src/screens/Groups/Groups.screen.tsx:63
+msgid "Create new group"
+msgstr "Create new group"
+
+#: src/screens/NewGroup/NewGroup.screen.tsx:51
+msgid "Currency"
+msgstr "Currency"
+
+#: src/api/expense.ts:96
+#: src/screens/EditGroup/EditGroup.screen.tsx:70
+#: src/screens/Profile/Profile.screen.tsx:23
 msgid "Delete"
 msgstr "Delete"
 
-#: screens/Profile/Profile.screen.tsx:70
+#: src/screens/Profile/Profile.screen.tsx:59
 msgid "Delete account"
 msgstr "Delete account"
 
-#: screens/Profile/Profile.screen.tsx:20
+#: src/screens/Profile/Profile.screen.tsx:21
 msgid "Delete account?"
 msgstr "Delete account?"
 
-#: screens/Profile/Profile.route.tsx:12
+#: src/screens/EditExpense/EditExpense.screen.tsx:93
+#: src/screens/Group/Group.screen.tsx:99
+msgid "Delete expense"
+msgstr "Delete expense"
+
+#: src/api/expense.ts:93
+msgid "Delete expense?"
+msgstr "Delete expense?"
+
+#: src/screens/EditGroup/EditGroup.screen.tsx:155
+msgid "Delete group"
+msgstr "Delete group"
+
+#: src/screens/EditGroup/EditGroup.screen.tsx:67
+msgid "Delete group?"
+msgstr "Delete group?"
+
+#: src/screens/Group/Group.screen.tsx:127
+msgid "Dept"
+msgstr "Dept"
+
+#: src/screens/EditExpense/EditExpense.route.tsx:26
+#: src/screens/EditExpense/EditExpense.screen.tsx:62
+#: src/screens/EditGroup/EditGroup.route.tsx:26
+#: src/screens/EditGroup/EditGroup.screen.tsx:59
+#: src/screens/NewExpense/NewExpense.screen.tsx:39
+#: src/screens/NewGroup/NewGroup.route.tsx:23
+#: src/screens/NewGroup/NewGroup.screen.tsx:35
+msgid "Done"
+msgstr "Done"
+
+#: src/screens/Profile/Profile.route.tsx:15
 msgid "Edit"
 msgstr "Edit"
 
-#: screens/Groups/Groups.route.tsx:40
+#: src/screens/EditExpense/EditExpense.route.tsx:11
+#: src/screens/Group/Group.screen.tsx:86
+msgid "Edit expense"
+msgstr "Edit expense"
+
+#: src/screens/EditGroup/EditGroup.route.tsx:11
+#: src/screens/Group/Group.route.tsx:41
+msgid "Edit group"
+msgstr "Edit group"
+
+#: src/components/ContextMenu/UserContextMenu.tsx:26
 msgid "Edit profile"
 msgstr "Edit profile"
 
-#: screens/Profile/Profile.screen.tsx:54
+#: src/screens/EditProfile/EditProfile.route.tsx:8
+msgid "Edit user"
+msgstr "Edit user"
+
+#: src/screens/EditProfile/EditProfile.screen.tsx:106
+#: src/screens/Profile/Profile.screen.tsx:43
 msgid "Email"
 msgstr "Email"
 
@@ -66,60 +160,233 @@ msgstr "Email"
 #~ msgid "Email with code sent to {email}"
 #~ msgstr "Email with code sent to {email}"
 
-#: screens/Profile/Profile.screen.tsx:52
+#: src/screens/SignIn/components/EmailSubmit.tsx:43
+msgid "Enter email"
+msgstr "Enter email"
+
+#: src/api/expense.ts:33
+msgid "Expense created"
+msgstr "Expense created"
+
+#: src/api/expense.ts:91
+msgid "Expense deleted"
+msgstr "Expense deleted"
+
+#: src/screens/EditExpense/EditExpense.screen.tsx:72
+#: src/screens/NewExpense/NewExpense.screen.tsx:49
+msgid "Expense name"
+msgstr "Expense name"
+
+#: src/api/expense.ts:60
+msgid "Expense updated"
+msgstr "Expense updated"
+
+#: src/api/expense.ts:34
+msgid "Failed to crate expense, something went wrong"
+msgstr "Failed to crate expense, something went wrong"
+
+#: src/api/group.ts:88
+msgid "Failed to crate group, something went wrong"
+msgstr "Failed to crate group, something went wrong"
+
+#: src/api/expense.ts:92
+msgid "Failed to delete expense, something went wrong"
+msgstr "Failed to delete expense, something went wrong"
+
+#: src/api/group.ts:152
+msgid "Failed to delete group, try again later"
+msgstr "Failed to delete group, try again later"
+
+#: src/app/(screens)/Groups/[groupId]/Invite.tsx:44
+msgid "Failed to join group, try again later!"
+msgstr "Failed to join group, try again later!"
+
+#: src/api/transaction.ts:47
+msgid "Failed to pay transaction, try again later"
+msgstr "Failed to pay transaction, try again later"
+
+#: src/api/expense.ts:61
+msgid "Failed to update expense, something went wrong"
+msgstr "Failed to update expense, something went wrong"
+
+#: src/api/group.ts:125
+msgid "Failed to update group"
+msgstr "Failed to update group"
+
+#: src/screens/EditProfile/EditProfile.screen.tsx:67
+#: src/screens/Profile/Profile.screen.tsx:41
 msgid "First name"
 msgstr "First name"
 
-#: screens/Groups/Groups.route.tsx:14
+#: src/api/group.ts:87
+msgid "Group crated"
+msgstr "Group crated"
+
+#: src/api/group.ts:151
+msgid "Group deleted"
+msgstr "Group deleted"
+
+#: src/screens/EditGroup/EditGroup.screen.tsx:130
+#: src/screens/NewGroup/NewGroup.screen.tsx:45
+msgid "Group name"
+msgstr "Group name"
+
+#: src/api/group.ts:124
+msgid "Group updated"
+msgstr "Group updated"
+
+#: src/screens/Groups/Groups.route.tsx:14
 msgid "Groups"
 msgstr "Groups"
 
-#: screens/Profile/Profile.screen.tsx:53
+#: src/screens/Group/Group.route.tsx:35
+msgid "Invite members"
+msgstr "Invite members"
+
+#: src/screens/EditProfile/EditProfile.screen.tsx:80
+#: src/screens/Profile/Profile.screen.tsx:42
 msgid "Last name"
 msgstr "Last name"
 
-#: screens/SignIn/components/CreateUser.tsx:54
+#: src/screens/Pay/Pay.screen.tsx:29
+msgid "Mark as paid"
+msgstr "Mark as paid"
+
+#: src/screens/NewExpense/NewExpense.route.tsx:11
+msgid "New expense"
+msgstr "New expense"
+
+#: src/screens/Group/Group.screen.tsx:145
+msgid "New Expense"
+msgstr "New Expense"
+
+#: src/screens/Groups/Groups.route.tsx:28
+#: src/screens/NewGroup/NewGroup.route.tsx:8
+msgid "New group"
+msgstr "New group"
+
+#: src/screens/SignIn/components/CreateUser.tsx:54
 msgid "New user"
 msgstr "New user"
 
-#: screens/Groups/Groups.route.tsx:53
+#: src/screens/Group/Group.screen.tsx:202
+msgid "No expenses yet!"
+msgstr "No expenses yet!"
+
+#: src/screens/Groups/Groups.screen.tsx:57
+msgid "Nothing to see here!"
+msgstr "Nothing to see here!"
+
+#: src/screens/Group/Group.screen.tsx:80
+msgid "Open expense menu"
+msgstr "Open expense menu"
+
+#: src/components/ContextMenu/UserContextMenu.tsx:38
 msgid "Open menu"
 msgstr "Open menu"
 
-#: screens/Profile/Profile.screen.tsx:55
+#: src/screens/Group/Group.screen.tsx:127
+msgid "Owed"
+msgstr "Owed"
+
+#: src/screens/Group/Group.screen.tsx:162
+msgid "Pay"
+msgstr "Pay"
+
+#: src/screens/Group/Group.screen.tsx:251
+msgid "Pay per member"
+msgstr "Pay per member"
+
+#: src/screens/EditProfile/EditProfile.screen.tsx:93
+#: src/screens/Profile/Profile.screen.tsx:44
 msgid "Phone number"
 msgstr "Phone number"
 
-#: screens/Home/Home.screen.tsx:15
+#: src/screens/Group/Group.screen.tsx:176
+msgid "Ready to pay"
+msgstr "Ready to pay"
+
+#: src/screens/EditGroup/EditGroup.screen.tsx:87
+msgid "Remove"
+msgstr "Remove"
+
+#. placeholder {0}: item.first_name
+#. placeholder {1}: item.last_name
+#: src/screens/EditGroup/EditGroup.screen.tsx:118
+msgid "Remove {0} {1} from the group"
+msgstr "Remove {0} {1} from the group"
+
+#: src/screens/EditGroup/EditGroup.screen.tsx:84
+msgid "Remove member?"
+msgstr "Remove member?"
+
+#: src/screens/EditProfile/EditProfile.route.tsx:23
+#: src/screens/EditProfile/EditProfile.screen.tsx:57
+#: src/screens/NewExpense/NewExpense.route.tsx:26
+msgid "Save"
+msgstr "Save"
+
+#: src/screens/Group/Group.route.tsx:31
+msgid "Share group"
+msgstr "Share group"
+
+#: src/screens/SignIn/SignIn.route.tsx:8
 msgid "Sign in"
 msgstr "Sign in"
 
 #: screens/SignIn/components/EmailSubmit.tsx:39
-msgid "Sign In"
-msgstr "Sign In"
+#~ msgid "Sign In"
+#~ msgstr "Sign In"
 
-#: screens/Groups/Groups.route.tsx:47
-#: screens/Profile/Profile.screen.tsx:63
+#: src/app/(screens)/Groups/[groupId]/Invite.tsx:28
+msgid "Sign in failed, you need to sign in order to join a group!"
+msgstr "Sign in failed, you need to sign in order to join a group!"
+
+#: src/screens/SignIn/components/EmailSubmit.tsx:60
+msgid "Sign in or Register"
+msgstr "Sign in or Register"
+
+#: src/components/ContextMenu/UserContextMenu.tsx:31
+#: src/screens/Profile/Profile.screen.tsx:52
 msgid "Sign out"
 msgstr "Sign out"
 
-#: screens/SignIn/components/EmailSubmit.tsx:56
-#: screens/SignIn/components/VerifyCode.tsx:83
+#: src/screens/Home/Home.screen.tsx:42
+msgid "Start Piggy splitting!"
+msgstr "Start Piggy splitting!"
+
+#: src/screens/SignIn/components/VerifyCode.tsx:83
 msgid "Submit"
 msgstr "Submit"
 
-#: api/user.ts:110
+#: src/screens/Group/Group.screen.tsx:241
+msgid "Total"
+msgstr "Total"
+
+#: src/api/user.ts:124
+msgid "Update failed, something went wrong"
+msgstr "Update failed, something went wrong"
+
+#: src/api/user.ts:98
 msgid "User deleted"
 msgstr "User deleted"
 
-#: screens/SignIn/components/VerifyCode.tsx:61
+#: src/api/user.ts:123
+msgid "User updated"
+msgstr "User updated"
+
+#: src/screens/SignIn/components/VerifyCode.tsx:61
 msgid "Verify"
 msgstr "Verify"
 
 #: screens/Home/Home.screen.tsx:12
-msgid "Welcome"
-msgstr "Welcome"
+#~ msgid "Welcome"
+#~ msgstr "Welcome"
 
-#: screens/Profile/Profile.screen.tsx:21
+#: src/screens/Profile/Profile.screen.tsx:22
 msgid "You will be removed from any ongoing and archived groups, all expenses you have made will also be removed."
 msgstr "You will be removed from any ongoing and archived groups, all expenses you have made will also be removed."
+
+#: src/screens/Group/Group.screen.tsx:263
+msgid "Your contribution"
+msgstr "Your contribution"

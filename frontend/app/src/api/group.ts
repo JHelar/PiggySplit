@@ -32,6 +32,7 @@ const GroupBase = z.object({
 	updated_at: z.coerce.date(),
 	total_expenses: z.number(),
 	pay_per_member: z.number(),
+	currency_code: z.string().default("SEK"),
 	expenses: z.array(Expense),
 	members: z.array(Member),
 });
@@ -79,6 +80,7 @@ export function getGroup(groupId: number | string) {
 export const UpsertGroup = z.object({
 	display_name: z.string(),
 	color_theme: ColorTheme,
+	currency_code: z.string(),
 });
 export type UpsertGroup = z.output<typeof UpsertGroup>;
 

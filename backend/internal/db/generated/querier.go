@@ -43,7 +43,7 @@ type Querier interface {
 	PayUserGroupTransaction(ctx context.Context, arg PayUserGroupTransactionParams) (GroupMemberTransaction, error)
 	RemoveExpense(ctx context.Context, arg RemoveExpenseParams) error
 	UpdateExpense(ctx context.Context, arg UpdateExpenseParams) (UpdateExpenseRow, error)
-	UpdateGroupById(ctx context.Context, arg UpdateGroupByIdParams) (Group, error)
+	UpdateGroupById(ctx context.Context, arg UpdateGroupByIdParams) (UpdateGroupByIdRow, error)
 	UpdateGroupMemberState(ctx context.Context, arg UpdateGroupMemberStateParams) error
 	UpdateGroupState(ctx context.Context, arg UpdateGroupStateParams) error
 	UpdateGroupStateById(ctx context.Context, arg UpdateGroupStateByIdParams) error

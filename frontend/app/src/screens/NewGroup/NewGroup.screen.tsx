@@ -48,6 +48,12 @@ export function NewGroupScreen() {
 			/>
 			<FormField
 				control={form.control}
+				label={t`Currency`}
+				name="currency_code"
+				input={<TextInput autoCapitalize="words" keyboardType="default" />}
+			/>
+			<FormField
+				control={form.control}
 				label={t`Color theme`}
 				name="color_theme"
 				input={<ColorThemePicker />}

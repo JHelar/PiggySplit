@@ -4,10 +4,13 @@ SELECT
     group_expenses.name AS name,
     group_expenses.cost as cost,
     users.first_name AS first_name,
-    users.last_name AS last_name
+    users.last_name AS last_name,
+    groups.currency_code as currency_code
     FROM group_expenses
         INNER JOIN users
             ON users.id=group_expenses.user_id
+        INNER JOIN groups
+            ON groups.id=group_expenses.group_id
     WHERE group_expenses.group_id=?
     AND EXISTS (
         SELECT 1
@@ -17,7 +20,17 @@ SELECT
     );
 
 -- name: GetExpenseById :one
-SELECT id, name, cost FROM group_expenses
+SELECT group_expenses.id AS id, 
+    group_expenses.name AS name, 
+    group_expenses.cost as cost, 
+    groups.currency_code AS currency_code,
+    users.first_name AS first_name,
+    users.last_name AS last_name
+    FROM group_expenses
+        INNER JOIN groups
+            ON groups.id=group_expenses.group_id
+        INNER JOIN users
+            ON users.id=group_expenses.user_id
     WHERE group_expenses.id=? AND group_expenses.group_id=?
     AND EXISTS (
         SELECT 1
@@ -42,7 +55,12 @@ INSERT INTO group_expenses (name, cost, group_id, user_id)
             SELECT users.last_name
             FROM users
             WHERE users.id = group_expenses.user_id
-        ) AS last_name;
+        ) AS last_name,
+        (
+            SELECT groups.currency_code
+            FROM groups
+            WHERE groups.id = group_expenses.group_id
+        ) AS currency_code;
 
 -- name: UpdateExpense :one
 UPDATE group_expenses
