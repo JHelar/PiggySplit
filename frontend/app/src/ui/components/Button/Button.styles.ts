@@ -2,34 +2,56 @@ import { StyleSheet } from "react-native-unistyles";
 
 export const styles = StyleSheet.create((theme) => ({
 	container: {
-		paddingHorizontal: theme.gap(1),
-		justifyContent: "center",
-		borderRadius: theme.radius.medium,
 		columnGap: theme.gap(1),
 		flexDirection: "row",
 		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: theme.surface.primary,
 		variants: {
+			size: {
+				mini: {},
+				small: {},
+				regular: {
+					height: 44,
+					minWidth: 44,
+				},
+				large: {},
+				extraLarge: {},
+			},
 			variant: {
 				filled: {
 					backgroundColor: theme.surface.primary,
 				},
-				ghost: {},
-				"ghost-inverted": {},
-				destructive: {},
-			},
-			header: {
-				true: {},
-				false: {
-					paddingVertical: theme.gap(2),
+				ghost: {
+					backgroundColor: undefined,
+				},
+				"ghost-inverted": {
+					backgroundColor: undefined,
+				},
+				destructive: {
+					backgroundColor: undefined,
 				},
 			},
 		},
 	},
+	borderRadius(noContent: boolean) {
+		if (noContent) {
+			return {
+				borderRadius: 9999,
+			};
+		}
+		return {
+			borderRadius: theme.radius.medium,
+		};
+	},
 	text: {
 		variants: {
-			header: {
-				true: {},
-				false: {},
+			size: {
+				mini: {},
+				small: {},
+				regular: {},
+				large: {},
+				extraLarge: {},
 			},
 			variant: {
 				filled: {
@@ -48,7 +70,15 @@ export const styles = StyleSheet.create((theme) => ({
 		},
 	},
 	icon: {
+		color: theme.text.color.inverted,
 		variants: {
+			size: {
+				mini: {},
+				small: {},
+				regular: {},
+				large: {},
+				extraLarge: {},
+			},
 			header: {
 				true: {},
 				false: {},

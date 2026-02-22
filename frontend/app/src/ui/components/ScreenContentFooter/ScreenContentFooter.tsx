@@ -1,5 +1,3 @@
-import { BlurView } from "expo-blur";
-import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
 import { View } from "react-native";
 import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
 import type { Extendable } from "@/ui/ui.types";
@@ -26,42 +24,27 @@ export function ScreenContentFooter({
 		style: styles.button,
 	});
 
-	if (isLiquidGlassAvailable()) {
-		return (
-			<GlassView style={[styles.container, containerStyles]}>
-				{Primary}
-				{Secondary}
-			</GlassView>
-		);
-	}
-
 	return (
-		<BlurView
-			style={[styles.container, containerStyles]}
-			tint="default"
-			intensity={30}
-		>
+		<View style={[styles.container, containerStyles]}>
 			{Primary}
 			{Secondary}
-		</BlurView>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create((theme, rt) => ({
-	button: {
-		paddingVertical: theme.gap(0.5),
-	},
+	button: {},
 	spacer: {
 		height: FOOTER_HEIGHT + theme.gap(2),
 	},
 	container: {
 		flexDirection: "row",
-		justifyContent: "space-between",
+		justifyContent: "flex-end",
+		alignItems: "center",
 		width: rt.screen.width,
-		paddingHorizontal: theme.gap(2),
-		paddingTop: theme.gap(1.5),
-		paddingBottom: Math.max(rt.insets.bottom, theme.gap(1.5)),
-		backgroundColor: theme.background.transparent,
+		paddingRight: theme.gap(5) + rt.insets.right,
 		height: FOOTER_HEIGHT,
+		position: "absolute",
+		bottom: Math.max(rt.insets.bottom, theme.gap(1.5)),
 	},
 }));

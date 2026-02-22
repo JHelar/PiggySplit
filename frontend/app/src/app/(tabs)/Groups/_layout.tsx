@@ -13,7 +13,17 @@ export const unstable_settings = {
 
 export default function GroupsLayout() {
 	return (
-		<Stack screenOptions={{ headerTransparent: true, headerTitle: "" }}>
+		<Stack
+			screenOptions={{ headerTransparent: true, headerTitle: "" }}
+			screenLayout={(props) => {
+				return (
+					<>
+						{props.children}
+						{props.options.unstable_sheetFooter?.()}
+					</>
+				);
+			}}
+		>
 			<Stack.Screen name="index" options={GroupsRouteOptions} />
 			<Stack.Screen name="New" options={NewGroupRouteOptions} />
 
