@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Trans, useLingui } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,6 @@ import { StyleSheet } from "react-native-unistyles";
 import { createGroup, UpsertGroup } from "@/api/group";
 import { ColorThemePicker } from "@/components/ColorThemePicker";
 import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
-import { Button } from "@/ui/components/Button";
 import { FormField } from "@/ui/components/FormField";
 import { TextInput } from "@/ui/components/TextInput";
 
@@ -29,12 +28,23 @@ export function NewGroupScreen() {
 	});
 
 	useScreenOptionsEffect({
-		headerRight() {
-			return (
-				<Button variant="ghost" onPress={onSubmit} loading={isPending}>
-					<Trans>Done</Trans>
-				</Button>
-			);
+		unstable_headerLeftItems() {
+			return [
+				{
+					type: "button",
+					label: t`Cancel`,
+					onPress: router.back,
+				},
+			];
+		},
+		unstable_headerRightItems() {
+			return [
+				{
+					type: "button",
+					label: t`Save`,
+					onPress: onSubmit,
+				},
+			];
 		},
 	});
 

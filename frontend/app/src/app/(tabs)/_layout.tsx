@@ -12,7 +12,7 @@ export default function TabLayout() {
 				<Icon sf="house.fill" drawable="custom_android_drawable" />
 			</NativeTabs.Trigger>
 			<NativeTabs.Trigger name="Profile">
-				<Icon sf="gear" drawable="custom_settings_drawable" />
+				<Icon sf="person.fill" drawable="custom_settings_drawable" />
 				<Label>Profile</Label>
 			</NativeTabs.Trigger>
 		</NativeTabs>

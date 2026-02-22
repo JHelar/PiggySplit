@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Trans, useLingui } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { use } from "react";
@@ -9,7 +9,6 @@ import { StyleSheet } from "react-native-unistyles";
 import z from "zod";
 import { updateUser } from "@/api/user";
 import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
-import { Button } from "@/ui/components/Button";
 import { FormField } from "@/ui/components/FormField";
 import { TextInput } from "@/ui/components/TextInput";
 import type { EditProfileScreenProps } from "./EditProfile.types";
@@ -51,12 +50,23 @@ export function EditProfileScreen({ query }: EditProfileScreenProps) {
 	});
 
 	useScreenOptionsEffect({
-		headerRight() {
-			return (
-				<Button variant="ghost" onPress={onSubmit} loading={isPending}>
-					<Trans>Save</Trans>
-				</Button>
-			);
+		unstable_headerLeftItems() {
+			return [
+				{
+					type: "button",
+					label: t`Cancel`,
+					onPress: router.back,
+				},
+			];
+		},
+		unstable_headerRightItems() {
+			return [
+				{
+					type: "button",
+					label: t`Save`,
+					onPress: onSubmit,
+				},
+			];
 		},
 	});
 

@@ -56,19 +56,26 @@ export function EditExpenseScreen({ query }: EditExpenseScreenProps) {
 	}, [deleteExpenseMutation, expenseId, group.id, router.back]);
 
 	useScreenOptionsEffect({
-		headerLeft() {
-			return (
-				<Button variant="ghost" header onPress={router.back}>
-					<Trans>Cancel</Trans>
-				</Button>
-			);
+		unstable_headerLeftItems() {
+			return [
+				{
+					type: "button",
+					label: t`Cancel`,
+					onPress: router.back,
+				},
+			];
 		},
-		headerRight() {
-			return (
-				<Button variant="ghost" onPress={onSubmit} header loading={isPending}>
-					<Trans>Done</Trans>
-				</Button>
-			);
+		unstable_headerRightItems() {
+			return [
+				{
+					type: "button",
+					variant: "done",
+					label: t`Save`,
+					onPress() {
+						onSubmit();
+					},
+				},
+			];
 		},
 	});
 

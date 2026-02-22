@@ -1,27 +1,24 @@
-import { Trans } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react/macro";
 import { useRouter } from "expo-router";
 import type { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
-import { UserContextMenu } from "@/components/ContextMenu";
-import { Button as UIButton } from "@/ui/components/Button";
-import { Icon } from "@/ui/components/Icon";
-import { ScreenContentFooter } from "@/ui/components/ScreenContentFooter";
 
 export const GroupsRouteOptions: ExtendedStackNavigationOptions = {
-	headerRight: UserContextMenu,
-
-	unstable_sheetFooter() {
+	unstable_headerRightItems() {
 		const router = useRouter();
-		return (
-			<ScreenContentFooter
-				primary={
-					<UIButton
-						onPress={() => router.navigate("/Groups/New")}
-						icon={<Icon name="add-circle-outline" />}
-					>
-						<Trans>New group</Trans>
-					</UIButton>
-				}
-			/>
-		);
+		const { t } = useLingui();
+		return [
+			{
+				type: "button",
+				variant: "prominent",
+				label: t`New group`,
+				icon: {
+					type: "sfSymbol",
+					name: "plus",
+				},
+				onPress() {
+					router.navigate("/Groups/New");
+				},
+			},
+		];
 	},
 };

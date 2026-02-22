@@ -1,10 +1,12 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import { use, useCallback } from "react";
 import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import { deleteUser, signOut } from "@/api/user";
 import { Alert } from "@/components/AlertRoot";
+import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
 import { Button } from "@/ui/components/Button";
 import { DataRow } from "@/ui/components/DataRow";
 import { Icon } from "@/ui/components/Icon";
@@ -13,6 +15,7 @@ import type { ProfileScreenProps } from "./Profile.types";
 export function ProfileScreen({ query }: ProfileScreenProps) {
 	const user = use(query.promise);
 	const { t } = useLingui();
+	const router = useRouter();
 	const { mutate: signOutMutation } = useMutation(signOut());
 	const { mutate: deleteUserMutation } = useMutation(deleteUser());
 
@@ -27,6 +30,46 @@ export function ProfileScreen({ query }: ProfileScreenProps) {
 			deleteUserMutation();
 		}
 	}, [deleteUserMutation, t]);
+
+	useScreenOptionsEffect({
+		unstable_headerRightItems() {
+			return [
+				{
+					type: "menu",
+					label: t`User options`,
+					icon: {
+						type: "sfSymbol",
+						name: "ellipsis",
+					},
+					menu: {
+						title: `${user.first_name} ${user.last_name}`,
+						items: [
+							{
+								type: "action",
+								label: t`Edit`,
+								icon: {
+									type: "sfSymbol",
+									name: "pencil",
+								},
+								onPress: () => {
+									router.navigate("/Profile/Edit");
+								},
+							},
+							{
+								type: "action",
+								label: t`Sign out`,
+								icon: {
+									type: "sfSymbol",
+									name: "rectangle.portrait.and.arrow.forward",
+								},
+								onPress: signOutMutation,
+							},
+						],
+					},
+				},
+			];
+		},
+	});
 
 	return (
 		<View style={styles.container}>
@@ -44,13 +87,6 @@ export function ProfileScreen({ query }: ProfileScreenProps) {
 				<DataRow label={t`Phone number`} data={user.phone_number} />
 			</View>
 			<View style={styles.buttons}>
-				<Button
-					variant="filled"
-					onPress={signOutMutation}
-					icon={<Icon name="logout" />}
-				>
-					<Trans>Sign out</Trans>
-				</Button>
 				<Button
 					variant="destructive"
 					onPress={onDelete}

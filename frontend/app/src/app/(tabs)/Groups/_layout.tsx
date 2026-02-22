@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { EditExpenseRouteOptions } from "@/screens/EditExpense";
 import { EditGroupRouteOptions } from "@/screens/EditGroup/EditGroup.route";
+import { GroupRouteOptions } from "@/screens/Group";
 import { GroupsRouteOptions } from "@/screens/Groups";
 import { NewExpenseRouteOptions } from "@/screens/NewExpense/NewExpense.route";
 import { NewGroupRouteOptions } from "@/screens/NewGroup";
@@ -16,7 +17,7 @@ export default function GroupsLayout() {
 			<Stack.Screen name="index" options={GroupsRouteOptions} />
 			<Stack.Screen name="New" options={NewGroupRouteOptions} />
 
-			<Stack.Screen name="[groupId]/index" />
+			<Stack.Screen name="[groupId]/index" options={GroupRouteOptions} />
 			<Stack.Screen name="[groupId]/Edit" options={EditGroupRouteOptions} />
 			<Stack.Screen
 				name="[groupId]/NewExpense"

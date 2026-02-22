@@ -53,12 +53,24 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 	});
 
 	useScreenOptionsEffect({
-		headerRight() {
-			return (
-				<Button variant="ghost" onPress={onSubmit} loading={isUpdating}>
-					<Trans>Done</Trans>
-				</Button>
-			);
+		unstable_headerLeftItems() {
+			return [
+				{
+					type: "button",
+					label: t`Cancel`,
+					onPress: router.back,
+				},
+			];
+		},
+		unstable_headerRightItems() {
+			return [
+				{
+					type: "button",
+					label: t`Save`,
+					variant: "done",
+					onPress: onSubmit,
+				},
+			];
 		},
 	});
 
@@ -73,7 +85,7 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 			try {
 				await deleteGroupMutation(group.id);
 			} finally {
-				router.dismissTo("/(screens)/Groups");
+				router.dismissTo("/Groups");
 			}
 		}
 	}, [group.group_name, t, deleteGroupMutation, group.id, router.dismissTo]);
