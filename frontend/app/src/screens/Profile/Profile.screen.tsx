@@ -101,8 +101,6 @@ export function ProfileScreen({ query }: ProfileScreenProps) {
 
 const styles = StyleSheet.create((theme, rt) => ({
 	buttons: {
-		flex: 1,
-		justifyContent: "flex-end",
 		rowGap: theme.gap(2),
 	},
 	container: {

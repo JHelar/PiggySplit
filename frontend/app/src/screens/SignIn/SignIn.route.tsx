@@ -8,13 +8,17 @@ const signInTitle = msg`Sign in`;
 export const SignInRouteOptions: ExtendedStackNavigationOptions = {
 	title: i18n._(signInTitle),
 	presentation: "modal",
-	unstable_headerLeftItems() {
+	unstable_headerRightItems() {
 		const router = useRouter();
 		const { t } = useLingui();
 		return [
 			{
 				type: "button",
 				label: t`Cancel`,
+				icon: {
+					type: "sfSymbol",
+					name: "xmark",
+				},
 				onPress: router.back,
 			},
 		];

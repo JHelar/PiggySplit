@@ -62,6 +62,10 @@ export function EditExpenseScreen({ query }: EditExpenseScreenProps) {
 					type: "button",
 					label: t`Cancel`,
 					onPress: router.back,
+					icon: {
+						type: "sfSymbol",
+						name: "xmark",
+					},
 				},
 			];
 		},
@@ -71,6 +75,10 @@ export function EditExpenseScreen({ query }: EditExpenseScreenProps) {
 					type: "button",
 					variant: "done",
 					label: t`Save`,
+					icon: {
+						type: "sfSymbol",
+						name: "checkmark",
+					},
 					onPress() {
 						onSubmit();
 					},

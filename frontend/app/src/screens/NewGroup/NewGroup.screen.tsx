@@ -33,6 +33,10 @@ export function NewGroupScreen() {
 				{
 					type: "button",
 					label: t`Cancel`,
+					icon: {
+						type: "sfSymbol",
+						name: "xmark",
+					},
 					onPress: router.back,
 				},
 			];
@@ -43,6 +47,11 @@ export function NewGroupScreen() {
 					type: "button",
 					label: t`Save`,
 					onPress: onSubmit,
+					variant: "prominent",
+					icon: {
+						type: "sfSymbol",
+						name: "checkmark",
+					},
 				},
 			];
 		},

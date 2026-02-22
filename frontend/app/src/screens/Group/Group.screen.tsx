@@ -19,7 +19,6 @@ import { Icon } from "@/ui/components/Icon";
 import { IconButton } from "@/ui/components/IconButton";
 import { InfoSquare } from "@/ui/components/InfoSquare";
 import { ListItem } from "@/ui/components/ListItem";
-import { ScreenContentFooter } from "@/ui/components/ScreenContentFooter";
 import { ScreenContentFooterSpacer } from "@/ui/components/ScreenContentFooter/ScreenContentFooter";
 import { Text } from "@/ui/components/Text";
 import { formatCurrency } from "@/utils/formatValue";
@@ -180,17 +179,7 @@ export function GroupScreen({ query }: GroupScreenProps) {
 	}, [group.id.toString, group.member_state, isPending, setReadyToPay]);
 
 	useScreenOptionsEffect({
-		unstable_sheetFooter() {
-			if (PrimaryFooterButton || SecondaryFooterButton) {
-				return (
-					<ScreenContentFooter
-						primary={PrimaryFooterButton}
-						secondary={SecondaryFooterButton}
-					/>
-				);
-			}
-			return null;
-		},
+		headerTitle: group.group_name,
 	});
 
 	if (group.expenses.length === 0) {
@@ -223,7 +212,6 @@ export function GroupScreen({ query }: GroupScreenProps) {
 		<>
 			<InfoSquare
 				style={styles.infoSquare}
-				title={<Text variant="headline">{group.group_name}</Text>}
 				info={
 					group.group_state === GroupState.enum.Resolved ? (
 						<Pig canvas animation="bobbing" />
@@ -316,6 +304,8 @@ const styles = StyleSheet.create((theme, rt) => ({
 		marginBottom: theme.gap(4),
 	},
 	headingContainer: {
+		flex: 1,
+		justifyContent: "space-evenly",
 		rowGap: theme.gap(3),
 		width: "100%",
 	},

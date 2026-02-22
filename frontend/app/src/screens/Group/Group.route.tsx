@@ -4,14 +4,12 @@ import { createURL } from "expo-linking";
 import { type RouteParams, router } from "expo-router";
 import type { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
 import { Share } from "react-native";
-import { StyleSheet } from "react-native-unistyles";
 import { getMemberInfo, MemberRole } from "@/api/member";
 import { useLazyLocalSearchParams } from "@/hooks/useLazyLocalSearchParams";
 
 export type GroupRouteParams = RouteParams<"/Groups/[groupId]">;
 
 export const GroupRouteOptions: ExtendedStackNavigationOptions = {
-	headerBackTitle: "Groups",
 	headerBackVisible: true,
 	unstable_headerRightItems() {
 		const { t } = useLingui();
@@ -54,36 +52,6 @@ export const GroupRouteOptions: ExtendedStackNavigationOptions = {
 				},
 			});
 		}
-		items.push({
-			type: "spacing",
-			spacing: 8,
-		});
-		items.push({
-			type: "button",
-			label: t`Add expense`,
-			variant: "prominent",
-			sharesBackground: false,
-			icon: {
-				type: "sfSymbol",
-				name: "plus",
-			},
-			onPress() {
-				router.navigate({
-					pathname: "/(tabs)/Groups/[groupId]/NewExpense",
-					params: {
-						groupId: params.groupId,
-					},
-				});
-			},
-		});
 		return items;
 	},
 };
-
-const styles = StyleSheet.create((theme) => ({
-	buttonContainer: {
-		flexDirection: "row",
-		columnGap: theme.gap(2),
-		alignItems: "center",
-	},
-}));

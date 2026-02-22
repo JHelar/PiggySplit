@@ -55,6 +55,10 @@ export function EditProfileScreen({ query }: EditProfileScreenProps) {
 				{
 					type: "button",
 					label: t`Cancel`,
+					icon: {
+						type: "sfSymbol",
+						name: "xmark",
+					},
 					onPress: router.back,
 				},
 			];
@@ -64,6 +68,11 @@ export function EditProfileScreen({ query }: EditProfileScreenProps) {
 				{
 					type: "button",
 					label: t`Save`,
+					variant: "prominent",
+					icon: {
+						type: "sfSymbol",
+						name: "checkmark",
+					},
 					onPress: onSubmit,
 				},
 			];

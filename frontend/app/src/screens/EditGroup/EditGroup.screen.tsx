@@ -38,6 +38,7 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 		defaultValues: {
 			color_theme: group.group_theme,
 			display_name: group.group_name,
+			currency_code: group.currency_code,
 		},
 	});
 
@@ -58,6 +59,10 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 				{
 					type: "button",
 					label: t`Cancel`,
+					icon: {
+						type: "sfSymbol",
+						name: "xmark",
+					},
 					onPress: router.back,
 				},
 			];
@@ -68,7 +73,13 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 					type: "button",
 					label: t`Save`,
 					variant: "done",
-					onPress: onSubmit,
+					icon: {
+						type: "sfSymbol",
+						name: "checkmark",
+					},
+					onPress: () => {
+						onSubmit();
+					},
 				},
 			];
 		},

@@ -13,7 +13,7 @@ export const GroupsRouteOptions: ExtendedStackNavigationOptions = {
 				label: t`New group`,
 				icon: {
 					type: "sfSymbol",
-					name: "plus",
+					name: "square.and.pencil",
 				},
 				onPress() {
 					router.navigate("/Groups/New");
