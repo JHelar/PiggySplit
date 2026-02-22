@@ -8,6 +8,7 @@ import { Button } from "@/ui/components/Button";
 const headerTitleMessage = msg`Edit user`;
 
 export const EditProfileRouteOptions: ExtendedStackNavigationOptions = {
+	presentation: "modal",
 	headerTitle: i18n._(headerTitleMessage),
 	headerLeft() {
 		const router = useRouter();

@@ -5,13 +5,13 @@ import { type RouteParams, useRouter } from "expo-router";
 import type { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
 import { Button } from "@/ui/components/Button";
 
-export type EditGroupRouteParams =
-	RouteParams<"/(modals)/Groups/[groupId]/Edit">;
+export type EditGroupRouteParams = RouteParams<"/Groups/[groupId]/Edit">;
 
 const headerTitleMessage = msg`Edit group`;
 
 export const EditGroupRouteOptions: ExtendedStackNavigationOptions = {
 	headerTitle: i18n._(headerTitleMessage),
+	presentation: "modal",
 	headerLeft() {
 		const router = useRouter();
 		return (

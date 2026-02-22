@@ -9,6 +9,7 @@ const headerTitleMessage = msg`New group`;
 
 export const NewGroupRouteOptions: ExtendedStackNavigationOptions = {
 	headerTitle: i18n._(headerTitleMessage),
+	presentation: "modal",
 	headerLeft() {
 		const router = useRouter();
 		return (

@@ -8,6 +8,7 @@ import { Button } from "@/ui/components/Button";
 const signInTitle = msg`Sign in`;
 export const SignInRouteOptions: ExtendedStackNavigationOptions = {
 	title: i18n._(signInTitle),
+	presentation: "modal",
 	headerLeft() {
 		const router = useRouter();
 		return (

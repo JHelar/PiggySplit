@@ -56,9 +56,16 @@ export function EditExpenseScreen({ query }: EditExpenseScreenProps) {
 	}, [deleteExpenseMutation, expenseId, group.id, router.back]);
 
 	useScreenOptionsEffect({
+		headerLeft() {
+			return (
+				<Button variant="ghost" header onPress={router.back}>
+					<Trans>Cancel</Trans>
+				</Button>
+			);
+		},
 		headerRight() {
 			return (
-				<Button variant="ghost" onPress={onSubmit} loading={isPending}>
+				<Button variant="ghost" onPress={onSubmit} header loading={isPending}>
 					<Trans>Done</Trans>
 				</Button>
 			);

@@ -86,7 +86,7 @@ function ExpenseListItem({
 									title: t`Edit expense`,
 									onPress() {
 										router.navigate({
-											pathname: "/(modals)/Groups/[groupId]/[expenseId]/Edit",
+											pathname: "/Groups/[groupId]/[expenseId]/Edit",
 											params: {
 												expenseId: expense.id,
 												groupId,
@@ -134,7 +134,7 @@ export function GroupScreen({ query }: GroupScreenProps) {
 				<Button
 					onPress={() =>
 						router.navigate({
-							pathname: "/(modals)/Groups/[groupId]/NewExpense",
+							pathname: "/Groups/[groupId]/NewExpense",
 							params: {
 								groupId: group.id,
 							},
@@ -151,7 +151,7 @@ export function GroupScreen({ query }: GroupScreenProps) {
 				<Button
 					onPress={() =>
 						router.navigate({
-							pathname: "/(screens)/Groups/[groupId]/Pay",
+							pathname: "/Groups/[groupId]/Pay",
 							params: {
 								groupId: group.id,
 							},
@@ -205,7 +205,7 @@ export function GroupScreen({ query }: GroupScreenProps) {
 						variant="filled"
 						onPress={() => {
 							router.navigate({
-								pathname: "/(modals)/Groups/[groupId]/NewExpense",
+								pathname: "/Groups/[groupId]/NewExpense",
 								params: {
 									groupId: group.id,
 								},

@@ -5,13 +5,13 @@ import { type RouteParams, useRouter } from "expo-router";
 import type { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
 import { Button } from "@/ui/components/Button";
 
-export type NewExpenseRouteParams =
-	RouteParams<"/(modals)/Groups/[groupId]/NewExpense">;
+export type NewExpenseRouteParams = RouteParams<"/Groups/[groupId]/NewExpense">;
 
 const headerTitleMessage = msg`New expense`;
 
 export const NewExpenseRouteOptions: ExtendedStackNavigationOptions = {
 	headerTitle: i18n._(headerTitleMessage),
+	presentation: "modal",
 	headerLeft() {
 		const router = useRouter();
 		return (

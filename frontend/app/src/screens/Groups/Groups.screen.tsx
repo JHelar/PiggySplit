@@ -58,7 +58,7 @@ export function GroupsScreen({ query }: GroupsScreenProps) {
 					</Text>
 					<Button
 						variant="filled"
-						onPress={() => router.navigate("/(modals)/Groups/New")}
+						onPress={() => router.navigate("/Groups/New")}
 					>
 						<Trans>Create new group</Trans>
 					</Button>
@@ -79,7 +79,7 @@ export function GroupsScreen({ query }: GroupsScreenProps) {
 					group={item}
 					onPress={() => {
 						router.navigate({
-							pathname: "/(screens)/Groups/[groupId]",
+							pathname: "/Groups/[groupId]",
 							params: {
 								groupId: item.id,
 							},

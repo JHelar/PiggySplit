@@ -103,7 +103,7 @@ export const useSignInStore = create<SignInStoreState>((set, get) => ({
 		get().signInHandle?.("aborted");
 
 		return new Promise<SignInResult>((resolve) => {
-			router.navigate("/(modals)/SignIn");
+			router.navigate("/SignIn");
 			set({
 				currentState: "EmailSubmit",
 				statePayload: {},

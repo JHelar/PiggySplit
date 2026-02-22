@@ -10,7 +10,7 @@ export const ProfileRouteOptions: ExtendedStackNavigationOptions = {
 			<Button
 				header
 				variant="ghost"
-				onPress={() => router.push("/(modals)/User/Edit")}
+				onPress={() => router.push("/Profile/Edit")}
 			>
 				<Trans>Edit</Trans>
 			</Button>
