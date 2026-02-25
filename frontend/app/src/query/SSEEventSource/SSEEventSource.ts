@@ -330,17 +330,25 @@ export class SSEEventSource<
 					};
 
 					if (eventType in this.eventSchemas) {
-						const parseResult =
-							this.eventSchemas[eventType as keyof Resolvers].safeParse(
-								dataString,
-							);
-						if (parseResult.success) {
-							event.data = parseResult.data as string; // Keeping sanity here;
-						} else {
+						try {
+							const parseResult = this.eventSchemas[
+								eventType as keyof Resolvers
+							].safeParse(JSON.parse(dataString));
+
+							if (parseResult.success) {
+								event.data = parseResult.data as string; // Keeping sanity here;
+							} else {
+								this.dispatch("error", {
+									type: "exception",
+									message: parseResult.error.message,
+									error: parseResult.error,
+								});
+							}
+						} catch (error) {
 							this.dispatch("error", {
 								type: "exception",
-								message: parseResult.error.message,
-								error: parseResult.error,
+								error: error as Error,
+								message: (error as Error).message,
 							});
 						}
 					}

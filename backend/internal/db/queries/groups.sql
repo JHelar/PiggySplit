@@ -76,7 +76,7 @@ SELECT
     g.color_theme AS group_theme,
     g.created_at AS created_at,
     g.updated_at AS updated_at,
-
+    g.currency_code AS currency_code,
     gm.role AS member_role,
     gm.state AS member_state,
 

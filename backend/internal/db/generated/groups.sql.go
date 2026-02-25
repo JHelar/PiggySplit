@@ -73,7 +73,7 @@ SELECT
     g.color_theme AS group_theme,
     g.created_at AS created_at,
     g.updated_at AS updated_at,
-
+    g.currency_code AS currency_code,
     gm.role AS member_role,
     gm.state AS member_state,
 
@@ -128,6 +128,7 @@ type GetGroupForUserByIdRow struct {
 	GroupTheme         string      `json:"group_theme"`
 	CreatedAt          time.Time   `json:"created_at"`
 	UpdatedAt          time.Time   `json:"updated_at"`
+	CurrencyCode       string      `json:"currency_code"`
 	MemberRole         string      `json:"member_role"`
 	MemberState        string      `json:"member_state"`
 	TotalExpenses      interface{} `json:"total_expenses"`
@@ -148,6 +149,7 @@ func (q *Queries) GetGroupForUserById(ctx context.Context, arg GetGroupForUserBy
 		&i.GroupTheme,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.CurrencyCode,
 		&i.MemberRole,
 		&i.MemberState,
 		&i.TotalExpenses,

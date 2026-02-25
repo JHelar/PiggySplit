@@ -117,6 +117,11 @@ func addExpense(c *fiber.Ctx, api *ApiContext) error {
 		log.Printf("addExpense failed to update member state for user(%v) in group(%v)", session.UserID, session.GroupID)
 	}
 
+	go func() {
+		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, session.GroupID)
+		notifyGroupMembers(session.UserID, members, ctx, api)
+	}()
+
 	return c.JSON(expense)
 }
 
@@ -192,6 +197,11 @@ func updateExpense(c *fiber.Ctx, api *ApiContext) error {
 		log.Printf("updateExpense failed to update member state for user(%v) in group(%v)", session.UserID, group.ID)
 	}
 
+	go func() {
+		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, session.GroupID)
+		notifyGroupMembers(session.UserID, members, ctx, api)
+	}()
+
 	return c.JSON(expense)
 }
 
@@ -220,6 +230,11 @@ func removeExpense(c *fiber.Ctx, api *ApiContext) error {
 		log.Printf("removeExpense failed to delete expense(%v) for user(%v)", expenseId, session.UserID)
 		return fiber.ErrInternalServerError
 	}
+
+	go func() {
+		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, session.GroupID)
+		notifyGroupMembers(session.UserID, members, ctx, api)
+	}()
 
 	return c.SendString("Expense removed")
 }
