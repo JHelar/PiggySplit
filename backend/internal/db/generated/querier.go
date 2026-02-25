@@ -26,11 +26,16 @@ type Querier interface {
 	DeleteUserSessionById(ctx context.Context, id string) error
 	GetExpenseById(ctx context.Context, arg GetExpenseByIdParams) (GetExpenseByIdRow, error)
 	GetGroupExpenses(ctx context.Context, arg GetGroupExpensesParams) ([]GetGroupExpensesRow, error)
+	// total group expenses
+	// total members
+	// this user's contribution
 	GetGroupForUserById(ctx context.Context, arg GetGroupForUserByIdParams) (GetGroupForUserByIdRow, error)
 	GetGroupMember(ctx context.Context, arg GetGroupMemberParams) (GetGroupMemberRow, error)
 	GetGroupMemberInfoForUser(ctx context.Context, arg GetGroupMemberInfoForUserParams) (GetGroupMemberInfoForUserRow, error)
 	GetGroupMemberTotals(ctx context.Context, groupID int64) ([]GetGroupMemberTotalsRow, error)
 	GetGroupMembersForUser(ctx context.Context, arg GetGroupMembersForUserParams) ([]GetGroupMembersForUserRow, error)
+	// total group expenses
+	// total members
 	GetGroupsByUserId(ctx context.Context, userID int64) ([]GetGroupsByUserIdRow, error)
 	GetSignInToken(ctx context.Context, email string) (GetSignInTokenRow, error)
 	GetSignInTokenExpiry(ctx context.Context, email string) (time.Time, error)

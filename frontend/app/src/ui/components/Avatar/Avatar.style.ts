@@ -48,14 +48,14 @@ export const styles = StyleSheet.create((theme) => ({
 	},
 	icon: {
 		position: "absolute",
-		bottom: -(ICON_SIZE / 2) + 2,
-		right: -(ICON_SIZE / 2) + 2,
+		bottom: -(ICON_SIZE / 2),
+		right: -(ICON_SIZE / 2),
 
 		color: theme.text.color.inverted,
-		padding: 2,
+		padding: theme.gap(1),
 		alignItems: "center",
 		justifyContent: "center",
-		borderRadius: ICON_SIZE,
+		borderRadius: ICON_SIZE + theme.gap(1),
 		variants: {
 			type: {
 				idle: {

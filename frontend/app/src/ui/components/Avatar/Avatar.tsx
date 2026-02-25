@@ -5,12 +5,7 @@ import { AvatarTypeToIcon, ICON_SIZE } from "./Avatar.consts";
 import { styles } from "./Avatar.style";
 import type { AvatarProps } from "./Avatar.types";
 
-export function Avatar({
-	firstName,
-	lastName,
-	imageSrc,
-	type = "idle",
-}: AvatarProps) {
+export function Avatar({ firstName, lastName, type = "idle" }: AvatarProps) {
 	styles.useVariants({
 		type,
 	});
@@ -31,7 +26,12 @@ export function Avatar({
 				{`${firstName.at(0)}${lastName.at(0)}`.toLocaleUpperCase()}
 			</Text>
 			{iconProps && (
-				<Icon {...iconProps} style={styles.icon} size={ICON_SIZE} />
+				<Icon
+					{...iconProps}
+					style={styles.icon}
+					size={ICON_SIZE}
+					color={styles.icon.color}
+				/>
 			)}
 		</View>
 	);

@@ -2,7 +2,7 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { FlashList } from "@shopify/flash-list";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { use, useMemo } from "react";
+import { use } from "react";
 import { View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { deleteExpense, type Expense } from "@/api/expense";
@@ -16,10 +16,12 @@ import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
 import { Avatar, type AvatarType } from "@/ui/components/Avatar";
 import { Button } from "@/ui/components/Button";
 import { Icon } from "@/ui/components/Icon";
-import { IconButton } from "@/ui/components/IconButton";
 import { InfoSquare } from "@/ui/components/InfoSquare";
 import { ListItem } from "@/ui/components/ListItem";
-import { ScreenContentFooterSpacer } from "@/ui/components/ScreenContentFooter/ScreenContentFooter";
+import {
+	ScreenContentFooter,
+	ScreenContentFooterSpacer,
+} from "@/ui/components/ScreenContentFooter";
 import { Text } from "@/ui/components/Text";
 import { formatCurrency } from "@/utils/formatValue";
 import { includes } from "@/utils/includes";
@@ -69,13 +71,13 @@ function ExpenseListItem({
 					{includes(
 						[GroupState.enum.Paying, GroupState.enum.Generating],
 						groupState,
-					) && <Icon name="lock-outline" />}
-					{groupState === GroupState.enum.Resolved && <Icon name="check" />}
+					) && <Icon name="lock" />}
+					{groupState === GroupState.enum.Resolved && <Icon name="checkmark" />}
 					{groupState === GroupState.enum.Expenses && (
 						<ContextMenu
 							trigger={
-								<IconButton
-									name="more-vert"
+								<Icon
+									name="list-menu"
 									accessibilityLabel={t`Open expense menu`}
 								/>
 							}
@@ -126,60 +128,75 @@ export function GroupScreen({ query }: GroupScreenProps) {
 	const deptTitle = dept < 0 ? t`Dept` : t`Owed`;
 
 	useScreenFocusSetTheme(group.group_theme);
-
-	const PrimaryFooterButton = useMemo(() => {
-		if (group.group_state === GroupState.enum.Expenses) {
-			return (
-				<Button
-					onPress={() =>
-						router.navigate({
-							pathname: "/Groups/[groupId]/NewExpense",
-							params: {
-								groupId: group.id,
-							},
-						})
-					}
-					icon={<Icon name="add-circle-outline" />}
-				>
-					<Trans>New Expense</Trans>
-				</Button>
-			);
-		}
-		if (group.member_state === MemberState.enum.Paying) {
-			return (
-				<Button
-					onPress={() =>
-						router.navigate({
-							pathname: "/Groups/[groupId]/Pay",
-							params: {
-								groupId: group.id,
-							},
-						})
-					}
-					icon={<Icon name="add-circle-outline" />}
-				>
-					<Trans>Pay</Trans>
-				</Button>
-			);
-		}
-	}, [group.group_state, group.id, group.member_state, router.navigate]);
-
-	const SecondaryFooterButton = useMemo(() => {
-		if (group.member_state === MemberState.enum.Adding) {
-			return (
-				<Button
-					icon={<Icon name="check" />}
-					onPress={() => setReadyToPay(group.id.toString())}
-					loading={isPending}
-				>
-					<Trans>Ready to pay</Trans>
-				</Button>
-			);
-		}
-	}, [group.id.toString, group.member_state, isPending, setReadyToPay]);
-
+	console.log(group.group_state);
 	useScreenOptionsEffect({
 		headerTitle: group.group_name,
+		unstable_sheetFooter() {
+			return (
+				<ScreenContentFooter
+					style={styles.footer}
+					secondary={
+						<Button
+							variant="ghost"
+							disabled={
+								!includes(
+									[MemberState.enum.Adding, MemberState.enum.Paying],
+									group.member_state,
+								)
+							}
+							onPress={() => {
+								if (group.member_state === MemberState.enum.Adding) {
+									setReadyToPay(group.id.toString());
+								} else {
+									router.navigate({
+										pathname: "/Groups/[groupId]/Pay",
+										params: {
+											groupId: group.id,
+										},
+									});
+								}
+							}}
+							icon={
+								includes(
+									[MemberState.enum.Adding, MemberState.enum.Paying],
+									group.member_state,
+								) && <Icon name="checkmark" />
+							}
+							loading={isPending}
+						>
+							{group.member_state === MemberState.enum.Adding && (
+								<Trans>Ready to pay</Trans>
+							)}
+							{group.member_state === MemberState.enum.Ready && (
+								<Trans>Waiting for others</Trans>
+							)}
+							{group.member_state === MemberState.enum.Resolved && (
+								<Trans>All done</Trans>
+							)}
+							{group.member_state === MemberState.enum.Paying && (
+								<Trans>Pay dept</Trans>
+							)}
+						</Button>
+					}
+					primary={
+						group.group_state === GroupState.enum.Expenses && (
+							<Button
+								variant="filled"
+								onPress={() =>
+									router.navigate({
+										pathname: "/Groups/[groupId]/NewExpense",
+										params: {
+											groupId: group.id,
+										},
+									})
+								}
+								icon={<Icon name="create" />}
+							></Button>
+						)
+					}
+				/>
+			);
+		},
 	});
 
 	if (group.expenses.length === 0) {
@@ -313,6 +330,7 @@ const styles = StyleSheet.create((theme, rt) => ({
 		justifyContent: "space-between",
 		flexDirection: "row",
 	},
+	footer: { justifyContent: "space-between" },
 	headingValueContainer: {
 		flexGrow: 1,
 		flexShrink: 0,

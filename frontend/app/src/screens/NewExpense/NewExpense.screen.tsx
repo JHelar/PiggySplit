@@ -37,6 +37,10 @@ export function NewExpenseScreen() {
 				{
 					type: "button",
 					label: t`Cancel`,
+					icon: {
+						type: "sfSymbol",
+						name: "xmark",
+					},
 					onPress: router.back,
 				},
 			];
@@ -45,8 +49,12 @@ export function NewExpenseScreen() {
 			return [
 				{
 					type: "button",
-					label: t`Save`,
 					variant: "done",
+					label: t`Save`,
+					icon: {
+						type: "sfSymbol",
+						name: "checkmark",
+					},
 					onPress: onSubmit,
 				},
 			];

@@ -4,14 +4,14 @@ import type { AvatarType } from "./Avatar.types";
 export const AvatarTypeToIcon: Record<AvatarType, IconProps | null> = {
 	idle: null,
 	payed: {
-		name: "euro",
+		name: "money",
 	},
 	paying: {
-		name: "euro",
+		name: "money",
 	},
 	ready: {
-		name: "check",
+		name: "checkmark",
 	},
 };
 
-export const ICON_SIZE = 13;
+export const ICON_SIZE = 12;

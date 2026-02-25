@@ -30,6 +30,8 @@ export function ProgressStepper({
 		[totalSteps],
 	);
 
+	if (totalSteps < 2) return null;
+
 	return (
 		<View
 			style={[styles.container, style]}

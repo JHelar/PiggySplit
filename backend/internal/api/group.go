@@ -149,7 +149,7 @@ func getGroups(c *fiber.Ctx, api *ApiContext) error {
 
 	group_rows, err := db.Queries.GetGroupsByUserId(ctx, session.UserID.Int64)
 	if err != nil {
-		log.Printf("getGroups, error getting user groups")
+		log.Printf("getGroups, error getting user groups: %v", err.Error())
 		return fiber.ErrInternalServerError
 	}
 
@@ -279,7 +279,7 @@ func checkGroupReadyState(groupId int64, api *ApiContext) {
 			})
 
 			if err != nil {
-				return err
+				return fmt.Errorf("Failed at CreateReceipt %v", err.Error())
 			}
 
 			// Owes money
@@ -339,6 +339,13 @@ func checkGroupReadyState(groupId int64, api *ApiContext) {
 		return nil
 	}); err != nil {
 		log.Printf("checkGroupReadyState failed to create receipts: %v", err.Error())
+		if err := db.Queries.UpdateGroupStateById(ctx, generated.UpdateGroupStateByIdParams{
+			GroupState: string(GroupStatePaying),
+			GroupID:    groupId,
+		}); err != nil {
+			log.Printf("checkGroupReadyState failed to update group state: %v", err.Error())
+			return
+		}
 		return
 	}
 

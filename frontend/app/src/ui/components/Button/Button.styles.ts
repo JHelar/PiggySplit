@@ -14,6 +14,7 @@ export const styles = StyleSheet.create((theme) => ({
 				regular: {
 					height: 44,
 					minWidth: 44,
+					borderRadius: 44,
 				},
 				large: {},
 				extraLarge: {},
@@ -29,7 +30,7 @@ export const styles = StyleSheet.create((theme) => ({
 					backgroundColor: undefined,
 				},
 				destructive: {
-					backgroundColor: undefined,
+					backgroundColor: theme.text.color.error,
 				},
 			},
 		},
@@ -41,7 +42,7 @@ export const styles = StyleSheet.create((theme) => ({
 			};
 		}
 		return {
-			borderRadius: theme.radius.medium,
+			paddingHorizontal: theme.gap(1.5),
 		};
 	},
 	text: {
@@ -58,7 +59,7 @@ export const styles = StyleSheet.create((theme) => ({
 					color: theme.text.color.inverted,
 				},
 				destructive: {
-					color: theme.text.color.error,
+					color: theme.text.color.inverted,
 				},
 				ghost: {
 					color: theme.text.color.default,

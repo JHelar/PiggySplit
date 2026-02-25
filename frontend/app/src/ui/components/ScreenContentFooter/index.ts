@@ -1,1 +1,4 @@
-export { ScreenContentFooter } from "./ScreenContentFooter";
+export {
+	ScreenContentFooter,
+	ScreenContentFooterSpacer,
+} from "./ScreenContentFooter";

@@ -16,18 +16,16 @@ export function ScreenContentFooter({
 	style: containerStyles,
 }: ScreenContentFooterProps) {
 	const Primary = renderSlot(primary, {
-		variant: "filled",
 		style: styles.button,
 	});
 	const Secondary = renderSlot(secondary, {
-		variant: "ghost",
 		style: styles.button,
 	});
 
 	return (
 		<View style={[styles.container, containerStyles]}>
-			{Primary}
 			{Secondary}
+			{Primary}
 		</View>
 	);
 }
@@ -42,7 +40,9 @@ const styles = StyleSheet.create((theme, rt) => ({
 		justifyContent: "flex-end",
 		alignItems: "center",
 		width: rt.screen.width,
-		paddingRight: theme.gap(5) + rt.insets.right,
+		columnGap: theme.gap(2),
+		paddingRight: theme.gap(2) + rt.insets.right,
+		paddingLeft: theme.gap(2) + rt.insets.left,
 		height: FOOTER_HEIGHT,
 		position: "absolute",
 		bottom: Math.max(rt.insets.bottom, theme.gap(1.5)),

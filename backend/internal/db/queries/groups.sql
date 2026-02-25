@@ -8,16 +8,30 @@ SELECT
     g.updated_at AS updated_at,
     g.currency_code AS currency_code,
 
-    IFNULL(SUM(e.cost), 0.0) AS total_expenses,
-    IFNULL(SUM(e.cost), 0.0) / COUNT(DISTINCT m.user_id) AS pay_per_member
+    IFNULL(exp.total_expenses, 0.0) AS total_expenses,
+
+    IFNULL(
+        exp.total_expenses / NULLIF(mem.member_count, 0),
+        0.0
+    ) AS pay_per_member
 FROM groups g
 INNER JOIN group_members gm
     ON gm.group_id = g.id
-LEFT JOIN group_expenses e
-    ON e.group_id = g.id
-LEFT JOIN group_members m
-    ON m.group_id = g.id
-WHERE gm.user_id = ?
+-- total group expenses
+LEFT JOIN (
+    SELECT group_id, SUM(cost) AS total_expenses
+    FROM group_expenses
+    GROUP BY group_id
+) exp ON exp.group_id = g.id
+
+-- total members
+LEFT JOIN (
+    SELECT group_id, COUNT(*) AS member_count
+    FROM group_members
+    GROUP BY group_id
+) mem ON mem.group_id = g.id
+
+WHERE gm.user_id=?
   AND g.state != 'group_state:archived'
 GROUP BY g.id
 ORDER BY gm.created_at DESC;
@@ -55,38 +69,57 @@ UPDATE groups
     );
 
 -- name: GetGroupForUserById :one
-SELECT g.id AS id,
+SELECT
+    g.id AS id,
     g.display_name AS group_name,
     g.state AS group_state,
     g.color_theme AS group_theme,
     g.created_at AS created_at,
     g.updated_at AS updated_at,
-    g.currency_code AS currency_code,
+
     gm.role AS member_role,
     gm.state AS member_state,
-    IFNULL(SUM(e.cost), 0.0) AS total_expenses,
+
+    IFNULL(exp.total_expenses, 0.0) AS total_expenses,
+
     IFNULL(
-        SUM(e.cost) / NULLIF(COUNT(DISTINCT m.user_id), 0),
+        exp.total_expenses / NULLIF(mem.member_count, 0),
         0.0
     ) AS pay_per_member,
 
-    IFNULL(
-        SUM(CASE WHEN e.user_id = gm.user_id THEN e.cost ELSE 0 END),
-        0.0
-    ) AS member_contribution
+    IFNULL(user_exp.member_contribution, 0.0) AS member_contribution
 
-    FROM groups g
-    INNER JOIN group_members gm
-        ON gm.group_id = g.id
-    LEFT JOIN group_expenses e
-        ON e.group_id = g.id
-    LEFT JOIN group_members m
-        ON m.group_id = g.id
-    WHERE gm.user_id = ?
-        AND g.state != 'group_state:archived'
-        AND g.id=?
-    GROUP BY g.id, gm.user_id
-    LIMIT 1;
+FROM groups g
+INNER JOIN group_members gm
+    ON gm.group_id = g.id
+
+-- total group expenses
+LEFT JOIN (
+    SELECT group_id, SUM(cost) AS total_expenses
+    FROM group_expenses
+    GROUP BY group_id
+) exp ON exp.group_id = g.id
+
+-- total members
+LEFT JOIN (
+    SELECT group_id, COUNT(*) AS member_count
+    FROM group_members
+    GROUP BY group_id
+) mem ON mem.group_id = g.id
+
+-- this user's contribution
+LEFT JOIN (
+    SELECT group_id, user_id, SUM(cost) AS member_contribution
+    FROM group_expenses
+    GROUP BY group_id, user_id
+) user_exp
+    ON user_exp.group_id = g.id
+    AND user_exp.user_id = gm.user_id
+
+WHERE gm.user_id = ?
+  AND g.state != 'group_state:archived'
+  AND g.id = ?
+LIMIT 1;
 
 -- name: UpdateGroupStateById :exec
 UPDATE groups

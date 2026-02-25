@@ -9,6 +9,7 @@ export type ButtonProps = {
 	children?: ReactNode;
 	loading?: boolean;
 	icon?: RenderSlot<IconProps>;
+	disabled?: boolean;
 } & UnistylesVariants<typeof styles> &
 	PressableComponent &
 	A11YProps &

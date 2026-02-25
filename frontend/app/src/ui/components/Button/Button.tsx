@@ -1,5 +1,5 @@
 import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Pressable } from "react-native";
 import { renderSlot } from "@/ui/utils/renderSlot";
 import { Spinner } from "../Spinner";
@@ -16,6 +16,7 @@ export function Button({
 	icon,
 	loading = false,
 	size = "regular",
+	disabled = false,
 	...a11yProps
 }: ButtonProps) {
 	styles.useVariants({ variant, size });
@@ -40,11 +41,16 @@ export function Button({
 		);
 	}, [Icon, children, loading, noContent]);
 
+	const handleOnPress = useCallback(() => {
+		if (loading || disabled) return;
+		onPress?.();
+	}, [disabled, loading, onPress]);
+
 	if (isLiquidGlassAvailable()) {
 		return (
 			<GlassView
-				isInteractive={!loading}
-				onTouchEnd={onPress}
+				isInteractive={!loading && !disabled}
+				onTouchEnd={handleOnPress}
 				style={[
 					styles.container,
 					styles.borderRadius(noContent),
@@ -54,7 +60,7 @@ export function Button({
 				tintColor={styles.container.backgroundColor}
 				accessibilityRole="button"
 				accessibilityState={{
-					disabled: loading,
+					disabled: loading || disabled,
 				}}
 				{...a11yProps}
 			>

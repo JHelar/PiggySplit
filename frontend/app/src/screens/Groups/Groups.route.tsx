@@ -7,28 +7,21 @@ import { ScreenContentFooter } from "@/ui/components/ScreenContentFooter";
 
 export const GroupsRouteOptions: ExtendedStackNavigationOptions = {
 	unstable_sheetFooter() {
-		return (
-			<ScreenContentFooter
-				primary={<Button icon={<Icon name="create" />}></Button>}
-			/>
-		);
-	},
-	unstable_headerRightItems() {
 		const router = useRouter();
 		const { t } = useLingui();
-		return [
-			{
-				type: "button",
-				variant: "prominent",
-				label: t`New group`,
-				icon: {
-					type: "sfSymbol",
-					name: "square.and.pencil",
-				},
-				onPress() {
-					router.navigate("/Groups/New");
-				},
-			},
-		];
+
+		return (
+			<ScreenContentFooter
+				primary={
+					<Button
+						accessibilityLabel={t`New group`}
+						onPress={() => {
+							router.navigate("/Groups/New");
+						}}
+						icon={<Icon name="create" />}
+					></Button>
+				}
+			/>
+		);
 	},
 };

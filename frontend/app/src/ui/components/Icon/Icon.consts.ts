@@ -11,6 +11,11 @@ export const IconNameToSFIcon: Record<IconName, ImageProps["systemName"]> = {
 	"sign-out": "rectangle.portrait.and.arrow.forward",
 	create: "square.and.pencil",
 	"chevron-right": "chevron.right",
+	checkmark: "checkmark",
+	lock: "lock",
+	"list-menu": "line.horizontal.3.decrease",
+	pay: "paperplane",
+	money: "eurosign",
 };
 
 export const IconNameToMaterialIcon: Record<
@@ -20,4 +25,9 @@ export const IconNameToMaterialIcon: Record<
 	"sign-out": "exit-to-app",
 	create: "edit-square",
 	"chevron-right": "chevron-right",
+	checkmark: "check",
+	lock: "lock-outline",
+	"list-menu": "more-vert",
+	pay: "send",
+	money: "euro",
 };
