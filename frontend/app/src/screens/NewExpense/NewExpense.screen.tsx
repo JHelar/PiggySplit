@@ -49,7 +49,7 @@ export function NewExpenseScreen() {
 			return [
 				{
 					type: "button",
-					variant: "done",
+					variant: "plain",
 					label: t`Save`,
 					icon: {
 						type: "sfSymbol",

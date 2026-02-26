@@ -113,7 +113,6 @@ export function deleteExpense() {
 			deleteExpenseDisclaimerBody.values = {
 				name: expense?.name,
 			};
-			console.log(deleteExpenseDisclaimerBody);
 			const result = await Alert.destructive({
 				cancelText: i18n._(deleteExpenseDisclaimerCancel),
 				primaryText: i18n._(deleteExpenseDisclaimerDelete),

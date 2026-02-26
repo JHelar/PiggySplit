@@ -32,6 +32,21 @@ export function ProfileScreen({ query }: ProfileScreenProps) {
 	}, [deleteUserMutation, t]);
 
 	useScreenOptionsEffect({
+		unstable_headerLeftItems() {
+			return [
+				{
+					type: "button",
+					label: t`Groups`,
+					icon: {
+						type: "sfSymbol",
+						name: "chevron.backward",
+					},
+					onPress() {
+						router.back();
+					},
+				},
+			];
+		},
 		unstable_headerRightItems() {
 			return [
 				{
@@ -90,7 +105,7 @@ export function ProfileScreen({ query }: ProfileScreenProps) {
 				<Button
 					variant="destructive"
 					onPress={onDelete}
-					icon={<Icon name="delete-outline" />}
+					icon={<Icon name="sign-out" />}
 				>
 					<Trans>Delete account</Trans>
 				</Button>

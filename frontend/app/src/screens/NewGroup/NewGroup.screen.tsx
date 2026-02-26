@@ -47,7 +47,7 @@ export function NewGroupScreen() {
 					type: "button",
 					label: t`Save`,
 					onPress: onSubmit,
-					variant: "prominent",
+					variant: "plain",
 					icon: {
 						type: "sfSymbol",
 						name: "checkmark",

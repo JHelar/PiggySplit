@@ -128,7 +128,7 @@ export function GroupScreen({ query }: GroupScreenProps) {
 	const deptTitle = dept < 0 ? t`Dept` : t`Owed`;
 
 	useScreenFocusSetTheme(group.group_theme);
-	console.log(group.group_state);
+
 	useScreenOptionsEffect({
 		headerTitle: group.group_name,
 		unstable_sheetFooter() {
@@ -181,7 +181,7 @@ export function GroupScreen({ query }: GroupScreenProps) {
 					primary={
 						group.group_state === GroupState.enum.Expenses && (
 							<Button
-								variant="filled"
+								variant="ghost"
 								onPress={() =>
 									router.navigate({
 										pathname: "/Groups/[groupId]/NewExpense",

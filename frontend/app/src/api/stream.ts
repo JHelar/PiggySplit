@@ -12,7 +12,6 @@ export function createUserStreamSource() {
 	});
 
 	source.addEventListener("group", (event) => {
-		console.log("Got group event:", event.data.id, event.data.group_name);
 		queryClient.setQueryData(
 			["groups", { id: event.data.id.toString() }],
 			() => event.data,

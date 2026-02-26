@@ -23,7 +23,7 @@ type FetchJSONOptions<Output extends z.ZodType | undefined> = FetchOptions & {
 
 export async function fetchRaw(path: string, options: FetchOptions) {
 	const url = buildApiUrl(path);
-	console.log(process.env.EXPO_PUBLIC_API_URL);
+
 	if (options.query) {
 		Object.entries(options.query).forEach(([key, value]) =>
 			url.searchParams.append(key, value),

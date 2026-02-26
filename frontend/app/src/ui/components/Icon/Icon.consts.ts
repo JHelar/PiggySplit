@@ -13,7 +13,7 @@ export const IconNameToSFIcon: Record<IconName, ImageProps["systemName"]> = {
 	"chevron-right": "chevron.right",
 	checkmark: "checkmark",
 	lock: "lock",
-	"list-menu": "line.horizontal.3.decrease",
+	"list-menu": "ellipsis",
 	pay: "paperplane",
 	money: "eurosign",
 };
