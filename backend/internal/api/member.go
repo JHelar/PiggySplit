@@ -90,6 +90,11 @@ func addMember(c *fiber.Ctx, api *ApiContext) error {
 		return err
 	}
 
+	go func() {
+		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, groupId)
+		notifyGroupMembers(groupId, members, ctx, api)
+	}()
+
 	return c.SendString("Member added")
 }
 
@@ -112,6 +117,11 @@ func memberReadyToPay(c *fiber.Ctx, api *ApiContext) error {
 		log.Printf("memberReadyToPay failed to update member state group(%v) for user(%v)", session.GroupID, session.UserID)
 		return fiber.DefaultErrorHandler(c, err)
 	}
+
+	go func() {
+		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, session.GroupID)
+		notifyGroupMembers(session.GroupID, members, ctx, api)
+	}()
 
 	go func() {
 		checkGroupReadyState(session.GroupID, api)
@@ -144,6 +154,11 @@ func removeMember(c *fiber.Ctx, api *ApiContext) error {
 		log.Printf("removeMember failed to remove member(%v) from group(%v)", memberUserId, session.GroupID)
 		return fiber.DefaultErrorHandler(c, err)
 	}
+
+	go func() {
+		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, session.GroupID)
+		notifyGroupMembers(session.GroupID, members, ctx, api)
+	}()
 
 	return c.SendString("Member removed")
 }

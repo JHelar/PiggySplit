@@ -7,7 +7,7 @@ type RedirectSystemPathArguments = Parameters<
 export function redirectSystemPath({ path }: RedirectSystemPathArguments) {
 	const parseResult = groupShareLinkId.safeParse(path);
 	if (parseResult.success) {
-		return `/(screens)/Groups/${parseResult.data}/Invite`;
+		return `/Invite?group=${parseResult.data}`;
 	}
 	return path;
 }

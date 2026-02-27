@@ -12,6 +12,7 @@ import { AuthState, useAuth } from "@/auth";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SnackbarRoot } from "@/components/SnackbarRoot";
 import { queryClient } from "@/query";
+import { GroupInviteRouteOptions } from "@/screens/GroupInvite";
 import { SignInRouteOptions } from "@/screens/SignIn";
 
 SystemUI.setBackgroundColorAsync(
@@ -41,6 +42,7 @@ export default function AppLayout() {
 								<Stack.Screen name="index" />
 								<Stack.Screen name="SignIn" options={SignInRouteOptions} />
 							</Stack.Protected>
+							<Stack.Screen name="Invite" options={GroupInviteRouteOptions} />
 						</Stack>
 						<SnackbarRoot />
 					</ErrorBoundary>
