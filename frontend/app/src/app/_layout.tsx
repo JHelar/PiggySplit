@@ -42,7 +42,9 @@ export default function AppLayout() {
 								<Stack.Screen name="index" />
 								<Stack.Screen name="SignIn" options={SignInRouteOptions} />
 							</Stack.Protected>
-							<Stack.Screen name="Invite" options={GroupInviteRouteOptions} />
+							<Stack.Protected guard={authState !== AuthState.INITIALIZING}>
+								<Stack.Screen name="Invite" options={GroupInviteRouteOptions} />
+							</Stack.Protected>
 						</Stack>
 						<SnackbarRoot />
 					</ErrorBoundary>

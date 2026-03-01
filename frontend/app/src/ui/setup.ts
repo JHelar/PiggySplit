@@ -19,6 +19,7 @@ export type TypographyTheme = {
 };
 
 export type AppTheme = {
+	palette: (typeof accentPalette)["blueLight"];
 	radius: {
 		none: number;
 		small: number;
@@ -150,6 +151,7 @@ const baseLightTheme: Pick<AppTheme, keyof typeof baseTheme | "colorPicker"> = {
 };
 
 const blueLight: AppTheme = {
+	palette: accentPalette.blueLight,
 	...baseLightTheme,
 	border: {
 		primary: accentPalette.blueLight.accent800,
@@ -178,6 +180,7 @@ const blueLight: AppTheme = {
 	},
 };
 const greenLight: AppTheme = {
+	palette: accentPalette.greenLight,
 	...baseLightTheme,
 	border: {
 		primary: accentPalette.greenLight.accent800,

@@ -1,11 +1,15 @@
 import {
 	Canvas,
 	Group,
+	LinearGradient,
 	Path,
+	Rect,
 	type Transforms3d,
+	vec,
 } from "@shopify/react-native-skia";
 import { useEffect, useRef } from "react";
 import {
+	convertToRGBA,
 	Easing,
 	makeMutable,
 	useAnimatedReaction,
@@ -13,7 +17,11 @@ import {
 	withRepeat,
 	withTiming,
 } from "react-native-reanimated";
-import { StyleSheet } from "react-native-unistyles";
+import {
+	StyleSheet,
+	UnistylesRuntime,
+	useUnistyles,
+} from "react-native-unistyles";
 import { curve } from "../utils/curve";
 import type { CloudsProps } from "./Clouds.types";
 
@@ -58,6 +66,7 @@ const CLOUD_MAX_Y = 5;
 
 export function Clouds({ style, children, front }: CloudsProps) {
 	const progress = useSharedValue(0);
+	const { theme } = useUnistyles();
 
 	const cloudProgressRefs = useRef(
 		Array.from({ length: CLOUD_COUNT }, () =>
@@ -93,8 +102,31 @@ export function Clouds({ style, children, front }: CloudsProps) {
 		},
 	);
 
+	const baseColor = theme.palette.accent700;
+	const stopColors = convertToRGBA(baseColor);
+	const colors = [
+		baseColor,
+		`rgba(${stopColors[0]},${stopColors[1]},${stopColors[2]},0)`,
+	];
+
 	return (
 		<Canvas style={[styles.container, style]}>
+			<Rect
+				x={0}
+				y={0}
+				width={UnistylesRuntime.screen.width}
+				height={UnistylesRuntime.screen.height}
+			>
+				<LinearGradient
+					colors={colors}
+					start={vec(UnistylesRuntime.screen.width / 2, 0)}
+					end={vec(
+						UnistylesRuntime.screen.width / 2,
+						UnistylesRuntime.screen.height * 0.5,
+					)}
+					flags={1}
+				/>
+			</Rect>
 			{CLOUDS_BACK.map(([base, highlight], index) => (
 				<Group key={index} transform={cloudProgressRefs.current[index]}>
 					<Path path={base} color="#FAFDFD" style="fill" />
@@ -117,5 +149,11 @@ export function Clouds({ style, children, front }: CloudsProps) {
 }
 
 const styles = StyleSheet.create((_, rt) => ({
-	container: { flex: 1, width: rt.screen.width, height: rt.screen.height },
+	container: {
+		flex: 1,
+		width: rt.screen.width,
+		height: rt.screen.height,
+		position: "absolute",
+		top: 0,
+	},
 }));
