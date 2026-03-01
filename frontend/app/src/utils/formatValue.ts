@@ -11,6 +11,8 @@ export function formatCurrency(value: number, options: FormatCurrencyOptions) {
 		currency: options.currencyCode,
 		maximumFractionDigits: 1,
 		minimumFractionDigits: 0,
-		currencySign: "standard",
+		roundingPriority: "morePrecision",
+		currencySign: "accounting",
+		notation: "standard",
 	}).format(value);
 }

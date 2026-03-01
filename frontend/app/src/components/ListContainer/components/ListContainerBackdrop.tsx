@@ -15,6 +15,10 @@ export function ListContainerBackdrop({
 		interpolate(animatedIndex.value, [0, 1], [0, 35]),
 	);
 	return (
-		<AnimatedBlurView style={style} intensity={intensity} tint={"default"} />
+		<AnimatedBlurView
+			style={[style, { pointerEvents: "none" }]}
+			intensity={intensity}
+			tint={"default"}
+		/>
 	);
 }

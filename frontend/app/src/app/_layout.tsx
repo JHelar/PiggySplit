@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SystemUI from "expo-system-ui";
+import { Appearance } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { UnistylesRuntime } from "react-native-unistyles";
 import { AuthState, useAuth } from "@/auth";
@@ -24,6 +25,8 @@ const DefaultScreenOptions = {
 	headerTitle: "",
 	headerTintColor: UnistylesRuntime.getTheme().text.color.default,
 };
+
+Appearance.setColorScheme("light");
 
 export default function AppLayout() {
 	const { reset } = useQueryErrorResetBoundary();

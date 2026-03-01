@@ -13,7 +13,7 @@ DELETE FROM user_sign_in_tokens
 
 -- name: CreateNewUserSession :one
 INSERT INTO user_sessions (user_id, email, expires_at) VALUES (?, ?, ?)
-    ON CONFLICT (email) DO UPDATE SET expires_at=excluded.expires_at
+    ON CONFLICT (user_id) DO UPDATE SET expires_at=excluded.expires_at
     RETURNING id;
 
 -- name: CreateNewUserRefreshSession :one

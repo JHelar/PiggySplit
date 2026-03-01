@@ -7,9 +7,6 @@ export const styles = StyleSheet.create((theme, rt) => ({
 	content: {
 		paddingHorizontal: theme.gap(2),
 	},
-	header: {
-		paddingBottom: theme.gap(4),
-	},
 	footer(headerHeight: number) {
 		return {
 			height: rt.insets.bottom + headerHeight,

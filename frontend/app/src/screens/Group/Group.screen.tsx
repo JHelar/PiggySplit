@@ -15,6 +15,7 @@ import { Button } from "@/ui/components/Button";
 import { InfoSquare } from "@/ui/components/InfoSquare";
 import { Text } from "@/ui/components/Text";
 import { ExpenseListItem } from "./components/ExpenseListItem";
+import { GroupInfoRow } from "./components/GroupInfoRow";
 import { GroupScreenFooter } from "./components/GroupScreenFooter";
 import type { GroupScreenProps } from "./Group.types";
 
@@ -78,6 +79,7 @@ export function GroupScreen({ query }: GroupScreenProps) {
 						<Pig canvas animation="bobbing" />
 					) : (
 						<>
+							<GroupInfoRow group={group} />
 							<View style={styles.members}>
 								{group.members.map((member) => (
 									<Avatar

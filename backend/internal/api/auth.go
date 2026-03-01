@@ -226,10 +226,6 @@ func verifyUserSignIn(c *fiber.Ctx, api *ApiContext) error {
 		ExpiresAt:     time.Now().Add(REFRESH_SESSION_EXPIRE_TIME),
 	})
 	if err != nil {
-		log.Println(err.Error())
-		return fiber.ErrUnauthorized
-	}
-	if err != nil {
 		log.Printf("Error creating refresh token (%v) verify user sign in", err.Error())
 		return fiber.ErrUnauthorized
 	}

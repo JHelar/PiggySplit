@@ -19,9 +19,10 @@ export function InfoSquare({ cta, info, title, style }: InfoSquareProps) {
 
 const styles = StyleSheet.create((theme) => ({
 	container: {
-		height: 288,
 		justifyContent: "space-between",
 		alignItems: "center",
-		paddingHorizontal: theme.gap(4),
+		paddingHorizontal: theme.gap(3),
+		paddingVertical: theme.gap(4),
+		rowGap: theme.gap(4),
 	},
 }));
