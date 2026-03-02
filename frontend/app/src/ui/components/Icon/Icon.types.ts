@@ -9,7 +9,8 @@ export type IconName =
 	| "lock"
 	| "list-menu"
 	| "pay"
-	| "money";
+	| "money"
+	| "destroy";
 
 export type IconInternalProps = {
 	name: IconName;

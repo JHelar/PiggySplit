@@ -11,6 +11,7 @@ import { updateUser } from "@/api/user";
 import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
 import { FormField } from "@/ui/components/FormField";
 import { TextInput } from "@/ui/components/TextInput";
+import { saveCancelScreenOptions } from "@/utils/saveCancelScreenOptions";
 import type { EditProfileScreenProps } from "./EditProfile.types";
 
 export function EditProfileScreen({ query }: EditProfileScreenProps) {
@@ -49,35 +50,7 @@ export function EditProfileScreen({ query }: EditProfileScreenProps) {
 		}
 	});
 
-	useScreenOptionsEffect({
-		unstable_headerLeftItems() {
-			return [
-				{
-					type: "button",
-					label: t`Cancel`,
-					icon: {
-						type: "sfSymbol",
-						name: "xmark",
-					},
-					onPress: router.back,
-				},
-			];
-		},
-		unstable_headerRightItems() {
-			return [
-				{
-					type: "button",
-					label: t`Save`,
-					variant: "prominent",
-					icon: {
-						type: "sfSymbol",
-						name: "checkmark",
-					},
-					onPress: onSubmit,
-				},
-			];
-		},
-	});
+	useScreenOptionsEffect(saveCancelScreenOptions(onSubmit));
 
 	return (
 		<View style={styles.container}>

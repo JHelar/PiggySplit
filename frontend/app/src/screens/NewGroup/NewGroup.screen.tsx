@@ -10,11 +10,12 @@ import { ColorThemePicker } from "@/components/ColorThemePicker";
 import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
 import { FormField } from "@/ui/components/FormField";
 import { TextInput } from "@/ui/components/TextInput";
+import { saveCancelScreenOptions } from "@/utils/saveCancelScreenOptions";
 
 export function NewGroupScreen() {
 	const { t } = useLingui();
 	const router = useRouter();
-	const { mutateAsync, isPending } = useMutation(createGroup());
+	const { mutateAsync } = useMutation(createGroup());
 	const form = useForm({
 		resolver: zodResolver(UpsertGroup),
 	});
@@ -27,35 +28,7 @@ export function NewGroupScreen() {
 		}
 	});
 
-	useScreenOptionsEffect({
-		unstable_headerLeftItems() {
-			return [
-				{
-					type: "button",
-					label: t`Cancel`,
-					icon: {
-						type: "sfSymbol",
-						name: "xmark",
-					},
-					onPress: router.back,
-				},
-			];
-		},
-		unstable_headerRightItems() {
-			return [
-				{
-					type: "button",
-					label: t`Save`,
-					onPress: onSubmit,
-					variant: "plain",
-					icon: {
-						type: "sfSymbol",
-						name: "checkmark",
-					},
-				},
-			];
-		},
-	});
+	useScreenOptionsEffect(saveCancelScreenOptions(onSubmit));
 
 	return (
 		<View style={styles.container}>

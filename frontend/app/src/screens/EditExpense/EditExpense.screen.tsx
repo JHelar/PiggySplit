@@ -10,6 +10,7 @@ import { UpsertExpense, updateExpense } from "@/api/expense";
 import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
 import { FormField } from "@/ui/components/FormField";
 import { TextInput } from "@/ui/components/TextInput";
+import { saveCancelScreenOptions } from "@/utils/saveCancelScreenOptions";
 import type { EditExpenseRouteParams } from "./EditExpense.route";
 import type { EditExpenseScreenProps } from "./EditExpense.types";
 
@@ -43,37 +44,7 @@ export function EditExpenseScreen({ query }: EditExpenseScreenProps) {
 		}
 	});
 
-	useScreenOptionsEffect({
-		unstable_headerLeftItems() {
-			return [
-				{
-					type: "button",
-					label: t`Cancel`,
-					onPress: router.back,
-					icon: {
-						type: "sfSymbol",
-						name: "xmark",
-					},
-				},
-			];
-		},
-		unstable_headerRightItems() {
-			return [
-				{
-					type: "button",
-					variant: "done",
-					label: t`Save`,
-					icon: {
-						type: "sfSymbol",
-						name: "checkmark",
-					},
-					onPress() {
-						onSubmit();
-					},
-				},
-			];
-		},
-	});
+	useScreenOptionsEffect(saveCancelScreenOptions(onSubmit));
 
 	return (
 		<View style={styles.container}>

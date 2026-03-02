@@ -19,6 +19,7 @@ import { IconButton } from "@/ui/components/IconButton";
 import { ListItem } from "@/ui/components/ListItem";
 import { Text } from "@/ui/components/Text";
 import { TextInput } from "@/ui/components/TextInput";
+import { saveCancelScreenOptions } from "@/utils/saveCancelScreenOptions";
 import type { EditGroupScreenProps } from "./EditGroup.types";
 
 export function EditGroupScreen({ query }: EditGroupScreenProps) {
@@ -53,37 +54,7 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 		}
 	});
 
-	useScreenOptionsEffect({
-		unstable_headerLeftItems() {
-			return [
-				{
-					type: "button",
-					label: t`Cancel`,
-					icon: {
-						type: "sfSymbol",
-						name: "xmark",
-					},
-					onPress: router.back,
-				},
-			];
-		},
-		unstable_headerRightItems() {
-			return [
-				{
-					type: "button",
-					label: t`Save`,
-					variant: "done",
-					icon: {
-						type: "sfSymbol",
-						name: "checkmark",
-					},
-					onPress: () => {
-						onSubmit();
-					},
-				},
-			];
-		},
-	});
+	useScreenOptionsEffect(saveCancelScreenOptions(onSubmit));
 
 	const onDelete = useCallback(async () => {
 		const result = await Alert.destructive({
@@ -130,6 +101,7 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 			)}
 			renderItem={({ item }) => (
 				<ListItem
+					variant="member"
 					middle={
 						<Text variant="small">
 							{item.first_name} {item.last_name}
@@ -139,7 +111,7 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 						<IconButton
 							onPress={() => onRemove(item)}
 							accessibilityLabel={t`Remove ${item.first_name} ${item.last_name} from the group`}
-							name="delete-outline"
+							name="destroy"
 						/>
 					}
 				/>
@@ -172,7 +144,7 @@ export function EditGroupScreen({ query }: EditGroupScreenProps) {
 				<Button
 					variant="destructive"
 					onPress={onDelete}
-					icon={<Icon name="delete-outline" />}
+					icon={<Icon name="destroy" />}
 					loading={isDeleting}
 				>
 					<Trans>Delete group</Trans>

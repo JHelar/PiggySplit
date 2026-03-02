@@ -6,6 +6,7 @@ export const styles = StyleSheet.create((theme) => ({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
+		alignSelf: "center",
 		backgroundColor: theme.surface.primary,
 		variants: {
 			size: {
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create((theme) => ({
 					backgroundColor: undefined,
 				},
 				destructive: {
-					backgroundColor: theme.text.color.error,
+					backgroundColor: undefined,
 				},
 			},
 		},
@@ -59,7 +60,7 @@ export const styles = StyleSheet.create((theme) => ({
 					color: theme.text.color.inverted,
 				},
 				destructive: {
-					color: theme.text.color.inverted,
+					color: theme.text.color.error,
 				},
 				ghost: {
 					color: theme.text.color.default,

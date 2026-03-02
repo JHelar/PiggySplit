@@ -16,6 +16,7 @@ export const IconNameToSFIcon: Record<IconName, ImageProps["systemName"]> = {
 	"list-menu": "ellipsis",
 	pay: "paperplane",
 	money: "eurosign",
+	destroy: "trash",
 };
 
 export const IconNameToMaterialIcon: Record<
@@ -30,4 +31,5 @@ export const IconNameToMaterialIcon: Record<
 	"list-menu": "more-vert",
 	pay: "send",
 	money: "euro",
+	destroy: "delete-outline",
 };
