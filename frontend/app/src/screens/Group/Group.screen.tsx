@@ -1,15 +1,16 @@
-import { Trans, useLingui } from "@lingui/react/macro";
+import { Trans } from "@lingui/react/macro";
 import { useRouter } from "expo-router";
 import { use } from "react";
 import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import { GroupState } from "@/api/group";
-import { MemberState } from "@/api/member";
+
 import { ListContainer } from "@/components/ListContainer";
 import { Clouds } from "@/components/SVG/Clouds";
 import { Pig } from "@/components/SVG/Pig";
 import { useScreenFocusSetTheme } from "@/hooks/useScreenFocusSetTheme";
 import { useScreenOptionsEffect } from "@/hooks/useScreenOptionsEffect";
+import { GroupState } from "@/schemas/group";
+import { MemberState } from "@/schemas/member";
 import { Avatar, type AvatarType } from "@/ui/components/Avatar";
 import { Button } from "@/ui/components/Button";
 import { InfoSquare } from "@/ui/components/InfoSquare";
@@ -29,10 +30,6 @@ const MemberStateToAvatarType: Record<MemberState, AvatarType> = {
 export function GroupScreen({ query }: GroupScreenProps) {
 	const group = use(query.promise);
 	const router = useRouter();
-	const { t } = useLingui();
-
-	const dept = group.member_contribution - group.pay_per_member;
-	const deptTitle = dept < 0 ? t`Dept` : t`Owed`;
 
 	useScreenFocusSetTheme(group.group_theme);
 

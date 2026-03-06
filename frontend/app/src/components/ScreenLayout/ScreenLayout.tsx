@@ -7,7 +7,7 @@ import {
 	useState,
 } from "react";
 import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
-import type { ColorTheme } from "@/api/group";
+import type { ColorTheme } from "@/schemas/group";
 import {
 	ScreenContent,
 	type ScreenContentProps,

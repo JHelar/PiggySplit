@@ -5,12 +5,9 @@ import { useRouter } from "expo-router";
 import { use, useCallback, useRef, useState } from "react";
 import { type LayoutChangeEvent, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import {
-	payTransaction,
-	type Transaction,
-	TransactionState,
-} from "@/api/transaction";
+import { payTransaction } from "@/api/transaction";
 import { queryClient } from "@/query";
+import { type Transaction, TransactionState } from "@/schemas/transaction";
 import { Button } from "@/ui/components/Button";
 import { ProgressStepper } from "@/ui/components/ProgressStepper";
 import { Text } from "@/ui/components/Text";

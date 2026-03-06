@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import type { GroupWithMembers } from "@/api/group";
 import { MembersRow } from "@/components/MembersRow";
+import type { GroupWithMembers } from "@/schemas/group";
 import { Icon } from "@/ui/components/Icon";
 import { ListItem } from "@/ui/components/ListItem";
 import { Text } from "@/ui/components/Text";

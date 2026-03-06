@@ -2,7 +2,7 @@ import { useLingui } from "@lingui/react/macro";
 import { GlassView } from "expo-glass-effect";
 import { ScrollView } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native-unistyles";
-import type { Group } from "@/api/group";
+import type { Group } from "@/schemas/group";
 import { Text } from "@/ui/components/Text";
 import { formatCurrency } from "@/utils/formatValue";
 

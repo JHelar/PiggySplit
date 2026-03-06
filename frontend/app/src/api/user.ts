@@ -6,14 +6,7 @@ import { unauthorize } from "@/auth/auth.store";
 import { Snackbar } from "@/components/SnackbarRoot";
 import { queryClient } from "@/query";
 import { fetchJSON, fetchRaw } from "@/query/fetch";
-
-export const User = z.object({
-	first_name: z.string(),
-	last_name: z.string(),
-	phone_number: z.string(),
-	email: z.string(),
-});
-export type User = z.output<typeof User>;
+import { User } from "@/schemas/user";
 
 export function signIn() {
 	return mutationOptions({

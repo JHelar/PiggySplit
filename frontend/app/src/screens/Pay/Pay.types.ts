@@ -1,5 +1,5 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { Transaction, Transactions } from "@/api/transaction";
+import type { Transaction, Transactions } from "@/schemas/transaction";
 
 export type TransactionViewProps = {
 	transaction: Transaction;

@@ -6,7 +6,7 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 import { StyleSheet } from "react-native-unistyles";
-import { ColorTheme } from "@/api/group";
+import { ColorTheme } from "@/schemas/group";
 import type { ColorThemePickerProps } from "./ColorThemePicker.types";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);

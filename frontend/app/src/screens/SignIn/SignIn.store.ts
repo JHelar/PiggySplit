@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { create } from "zustand";
-import type { User } from "@/api/user";
 import { authorize } from "@/auth/auth.store";
+import type { User } from "@/schemas/user";
 import { includes } from "@/utils/includes";
 
 const SignInState = ["EmailSubmit", "VerifyCode", "NewUser", "Idle"] as const;

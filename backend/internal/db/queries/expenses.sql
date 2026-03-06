@@ -75,7 +75,25 @@ UPDATE group_expenses
         WHERE group_members_check.group_id=group_expenses.group_id
         AND group_members_check.user_id=?
     )
-    RETURNING id, name, cost;
+    RETURNING 
+        id, 
+        name, 
+        cost,
+        (
+            SELECT users.first_name
+            FROM users
+            WHERE users.id = group_expenses.user_id
+        ) AS first_name,
+        (
+            SELECT users.last_name
+            FROM users
+            WHERE users.id = group_expenses.user_id
+        ) AS last_name,
+        (
+            SELECT groups.currency_code
+            FROM groups
+            WHERE groups.id = group_expenses.group_id
+        ) AS currency_code;
 
 -- name: RemoveExpense :exec
 DELETE FROM group_expenses

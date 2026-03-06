@@ -219,7 +219,25 @@ UPDATE group_expenses
         WHERE group_members_check.group_id=group_expenses.group_id
         AND group_members_check.user_id=?
     )
-    RETURNING id, name, cost
+    RETURNING 
+        id, 
+        name, 
+        cost,
+        (
+            SELECT users.first_name
+            FROM users
+            WHERE users.id = group_expenses.user_id
+        ) AS first_name,
+        (
+            SELECT users.last_name
+            FROM users
+            WHERE users.id = group_expenses.user_id
+        ) AS last_name,
+        (
+            SELECT groups.currency_code
+            FROM groups
+            WHERE groups.id = group_expenses.group_id
+        ) AS currency_code
 `
 
 type UpdateExpenseParams struct {
@@ -231,9 +249,12 @@ type UpdateExpenseParams struct {
 }
 
 type UpdateExpenseRow struct {
-	ID   int64   `json:"id"`
-	Name string  `json:"name"`
-	Cost float64 `json:"cost"`
+	ID           int64   `json:"id"`
+	Name         string  `json:"name"`
+	Cost         float64 `json:"cost"`
+	FirstName    string  `json:"first_name"`
+	LastName     string  `json:"last_name"`
+	CurrencyCode string  `json:"currency_code"`
 }
 
 func (q *Queries) UpdateExpense(ctx context.Context, arg UpdateExpenseParams) (UpdateExpenseRow, error) {
@@ -245,6 +266,13 @@ func (q *Queries) UpdateExpense(ctx context.Context, arg UpdateExpenseParams) (U
 		arg.UserID,
 	)
 	var i UpdateExpenseRow
-	err := row.Scan(&i.ID, &i.Name, &i.Cost)
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Cost,
+		&i.FirstName,
+		&i.LastName,
+		&i.CurrencyCode,
+	)
 	return i, err
 }

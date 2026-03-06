@@ -16,5 +16,9 @@
 	},
 	"[go]": {
 		"editor.defaultFormatter": "golang.go"
+	},
+	"cSpell.words": ["paralel"],
+	"[json]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
 	}
 }

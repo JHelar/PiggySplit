@@ -4,8 +4,9 @@ import { createURL } from "expo-linking";
 import { type RouteParams, router } from "expo-router";
 import type { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
 import { Share } from "react-native";
-import { getMemberInfo, MemberRole } from "@/api/member";
+import { getMemberInfo } from "@/api/member";
 import { useLazyLocalSearchParams } from "@/hooks/useLazyLocalSearchParams";
+import { MemberRole } from "@/schemas/member";
 
 export type GroupRouteParams = RouteParams<"/Groups/[groupId]">;
 

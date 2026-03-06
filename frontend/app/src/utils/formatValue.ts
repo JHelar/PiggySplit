@@ -12,7 +12,7 @@ export function formatCurrency(value: number, options: FormatCurrencyOptions) {
 		maximumFractionDigits: 1,
 		minimumFractionDigits: 0,
 		roundingPriority: "morePrecision",
-		currencySign: "accounting",
+		currencySign: "standard",
 		notation: "standard",
 	}).format(value);
 }

@@ -1,32 +1,9 @@
 import { i18n } from "@lingui/core";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
-import z from "zod";
 import { Snackbar } from "@/components/SnackbarRoot";
 import { fetchJSON, fetchRaw } from "@/query/fetch";
-import type { Group } from "./group";
-
-export const MemberRole = z.enum({
-	Admin: "member_role:admin",
-	Regular: "member_role:regular",
-});
-export type MemberRole = z.infer<typeof MemberRole>;
-
-export const MemberState = z.enum({
-	Adding: "member_state:adding",
-	Ready: "member_state:ready",
-	Resolved: "member_state:resolved",
-	Paying: "member_state:paying",
-});
-export type MemberState = z.infer<typeof MemberState>;
-
-export const Member = z.object({
-	first_name: z.string(),
-	last_name: z.string(),
-	member_role: MemberRole,
-	member_state: MemberState,
-	member_id: z.number(),
-});
-export type Member = z.output<typeof Member>;
+import type { Group } from "@/schemas/group";
+import { Member, MemberState } from "@/schemas/member";
 
 export function addMember() {
 	return mutationOptions({

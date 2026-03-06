@@ -119,7 +119,7 @@ func addExpense(c *fiber.Ctx, api *ApiContext) error {
 
 	go func() {
 		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, session.GroupID)
-		notifyGroupMembers(session.GroupID, members, ctx, api)
+		notifyExpense(session.GroupID, expense.ID, members, ctx, api)
 	}()
 
 	return c.JSON(expense)
@@ -199,7 +199,7 @@ func updateExpense(c *fiber.Ctx, api *ApiContext) error {
 
 	go func() {
 		members, _ := api.DB.Queries.GetGroupMemberTotals(ctx, session.GroupID)
-		notifyGroupMembers(session.GroupID, members, ctx, api)
+		notifyExpense(session.GroupID, expense.ID, members, ctx, api)
 	}()
 
 	return c.JSON(expense)

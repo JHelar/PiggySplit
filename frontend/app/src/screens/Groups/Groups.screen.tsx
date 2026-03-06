@@ -5,8 +5,10 @@ import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import { ListContainer } from "@/components/ListContainer";
 import { Clouds } from "@/components/SVG/Clouds";
+import { Pig } from "@/components/SVG/Pig";
 import { Button } from "@/ui/components/Button";
 import { Text } from "@/ui/components/Text";
+import { EventInfoSquare } from "./components/EventInfoSquare";
 import { GroupListItem } from "./components/GroupListItem";
 import type { GroupsScreenProps } from "./Groups.types";
 
@@ -17,7 +19,9 @@ export function GroupsScreen({ query }: GroupsScreenProps) {
 	if (groups.length === 0) {
 		return (
 			<>
-				<Clouds />
+				<Clouds>
+					<Pig animation="bobbing" />
+				</Clouds>
 				<View style={styles.emptyContainer}>
 					<Text variant="title" style={styles.emptyHeadline}>
 						<Trans>Nothing to see here!</Trans>
@@ -36,6 +40,7 @@ export function GroupsScreen({ query }: GroupsScreenProps) {
 	return (
 		<>
 			<Clouds />
+			<EventInfoSquare />
 			<ListContainer
 				data={groups}
 				keyExtractor={({ id }) => id.toString()}

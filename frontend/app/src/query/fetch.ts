@@ -21,6 +21,8 @@ type FetchJSONOptions<Output extends z.ZodType | undefined> = FetchOptions & {
 	output?: Output;
 };
 
+let fetchQueue: ((error?: Error) => void)[] = [];
+let inflightRequests = 0;
 export async function fetchRaw(path: string, options: FetchOptions) {
 	const url = buildApiUrl(path);
 
@@ -38,8 +40,41 @@ export async function fetchRaw(path: string, options: FetchOptions) {
 		};
 	}
 
+	console.log("[START] Fetching", url.pathname);
+	inflightRequests++;
 	const response = await fetch(url, options);
+	inflightRequests--;
+	console.log("[END] Fetching", url.pathname);
 	if (!response.ok) {
+		if (response.status === 401) {
+			// console.log(
+			// 	"[STATUS] 401",
+			// 	url.pathname,
+			// 	fetchQueue.length,
+			// 	inflightRequests,
+			// );
+			if (inflightRequests > 0) {
+				return new Promise<Response>((resolve, reject) => {
+					fetchQueue.push((error?: Error) => {
+						if (error === undefined) {
+							fetchRaw(path, options).then(resolve).catch(reject);
+						} else {
+							reject(error);
+						}
+					});
+				});
+			} else {
+				const error = new NetworkError(
+					response.status,
+					new Error(`[Fetch] Unauthorized`),
+				);
+
+				fetchQueue.splice(0).forEach((rerunQuery) => {
+					rerunQuery(error);
+				});
+				throw error;
+			}
+		}
 		throw new NetworkError(
 			response.status,
 			new Error(`[Fetch] path(${path}) with message "${response.statusText}"`),
@@ -51,6 +86,12 @@ export async function fetchRaw(path: string, options: FetchOptions) {
 		updateTokens({
 			refreshToken,
 			accessToken,
+		});
+		// console.log("[REFRESH] RERUN", url.pathname, fetchQueue.length, inflightRequests);
+		requestAnimationFrame(() => {
+			for (const rerunQuery of fetchQueue.splice(0)) {
+				rerunQuery();
+			}
 		});
 	}
 

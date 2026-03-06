@@ -10,7 +10,8 @@ import (
 type MessageEvent = string
 
 const (
-	MessageEventGroup MessageEvent = "group"
+	MessageEventGroup   MessageEvent = "group"
+	MessageEventExpense MessageEvent = "expense"
 )
 
 type EventMessage struct {

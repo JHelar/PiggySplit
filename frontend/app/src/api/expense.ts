@@ -1,29 +1,11 @@
 import { i18n } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import { mutationOptions } from "@tanstack/react-query";
-import z from "zod";
 import { Alert } from "@/components/AlertRoot";
 import { Snackbar } from "@/components/SnackbarRoot";
 import { fetchJSON, fetchRaw } from "@/query/fetch";
-import type { Group } from "./group";
-
-export const UpsertExpense = z.object({
-	expense_name: z.string(),
-	expense_cost: z.coerce.number(),
-});
-
-export type UpsertExpense = z.infer<typeof UpsertExpense>;
-
-export const Expense = z.object({
-	id: z.number(),
-	name: z.string(),
-	cost: z.number(),
-	currency_code: z.string(),
-	first_name: z.string(),
-	last_name: z.string(),
-});
-
-export type Expense = z.infer<typeof Expense>;
+import { Expense, type UpsertExpense } from "@/schemas/expense";
+import type { Group } from "@/schemas/group";
 
 type CreateExpenseArguments = {
 	groupId: string;

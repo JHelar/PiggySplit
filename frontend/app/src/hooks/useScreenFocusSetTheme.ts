@@ -1,7 +1,7 @@
 import { useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import { UnistylesRuntime } from "react-native-unistyles";
-import type { ColorTheme } from "@/api/group";
+import type { ColorTheme } from "@/schemas/group";
 import type { AppThemes } from "@/ui/setup";
 
 export const ColorThemeToAppTheme: Record<ColorTheme, keyof AppThemes> = {
