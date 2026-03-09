@@ -6,6 +6,7 @@ import { Snackbar } from "@/components/SnackbarRoot";
 import { queryClient } from "@/query";
 import { fetchJSON, fetchRaw } from "@/query/fetch";
 import { ColorTheme, Group, GroupBase, Groups } from "@/schemas/group";
+import { setLatestGroupExpenses } from "./stream";
 
 export function getGroups() {
 	return queryOptions({
@@ -23,10 +24,12 @@ export function getGroup(groupId: number | string) {
 	return queryOptions({
 		queryKey: ["groups", { id: groupId.toString() }],
 		async queryFn() {
-			return await fetchJSON(`groups/${groupId}`, {
+			const group = await fetchJSON(`groups/${groupId}`, {
 				method: "GET",
 				output: Group,
 			});
+			setLatestGroupExpenses(group);
+			return group;
 		},
 	});
 }

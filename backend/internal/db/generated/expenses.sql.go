@@ -138,6 +138,7 @@ SELECT
         WHERE group_members_check.group_id=group_expenses.group_id
         AND group_members_check.user_id=?
     )
+    ORDER BY group_expenses.created_at DESC
 `
 
 type GetGroupExpensesParams struct {

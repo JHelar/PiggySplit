@@ -38,23 +38,26 @@ export function ListContainer<Data>(props: ListContainerProps<Data>) {
 			enableOverDrag={false}
 			snapPoints={snapPoints}
 			enableDynamicSizing={false}
-			backgroundComponent={null}
+			// backgroundComponent={null}
+			backgroundStyle={{ height: UnistylesRuntime.screen.height }}
 			enableHandlePanningGesture={false}
 			backdropComponent={ListContainerBackdrop}
 		>
-			<FlashList
-				bounces={false}
-				data={props.data}
-				keyExtractor={props.keyExtractor}
-				style={styles.container}
-				ListHeaderComponent={<ListHeader animatedIndex={animatedIndex} />}
-				ListFooterComponentStyle={styles.footer(headerHeight)}
-				contentContainerStyle={styles.content}
-				ListFooterComponent={<View />}
-				renderItem={props.renderItem}
-				ItemSeparatorComponent={() => <View style={styles.spacer} />}
-				renderScrollComponent={BottomSheetScrollable}
-			/>
+			<View style={{ flexGrow: 0 }}>
+				<FlashList
+					bounces={false}
+					data={props.data}
+					keyExtractor={props.keyExtractor}
+					style={styles.container}
+					ListHeaderComponent={<ListHeader animatedIndex={animatedIndex} />}
+					ListFooterComponentStyle={styles.footer(headerHeight)}
+					contentContainerStyle={styles.content}
+					ListFooterComponent={<View />}
+					renderItem={props.renderItem}
+					ItemSeparatorComponent={() => <View style={styles.spacer} />}
+					renderScrollComponent={BottomSheetScrollable}
+				/>
+			</View>
 		</BottomSheet>
 	);
 }

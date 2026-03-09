@@ -4,14 +4,32 @@ import { buildApiUrl } from "@/query/fetch";
 import { Group } from "@/schemas/group";
 import { ExpenseEvent } from "@/schemas/stream";
 
+const MAX_QUEUE_SIZE = 5;
+
 export const useEventInfo = create<{
-	latestExpenseEvent: ExpenseEvent | undefined;
+	expenseQueue: ExpenseEvent[];
 }>(() => ({
-	latestExpenseEvent: undefined,
+	expenseQueue: [],
 }));
 
 export function notifyLatestExpense(expense: ExpenseEvent) {
-	useEventInfo.setState({ latestExpenseEvent: expense });
+	if (
+		useEventInfo
+			.getState()
+			.expenseQueue.some((event) => event.expense.id === expense.expense.id)
+	)
+		return;
+
+	useEventInfo.setState((prev) => ({
+		expenseQueue: [expense, ...prev.expenseQueue].splice(0, MAX_QUEUE_SIZE),
+	}));
+}
+
+export function setLatestGroupExpenses(group: Group) {
+	const latestExpense = group.expenses.at(0);
+	if (latestExpense) {
+		notifyLatestExpense({ group, expense: latestExpense });
+	}
 }
 
 export function createUserStreamSource() {

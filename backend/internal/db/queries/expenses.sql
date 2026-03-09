@@ -17,7 +17,8 @@ SELECT
         FROM group_members group_members_check
         WHERE group_members_check.group_id=group_expenses.group_id
         AND group_members_check.user_id=?
-    );
+    )
+    ORDER BY group_expenses.created_at DESC;
 
 -- name: GetExpenseById :one
 SELECT group_expenses.id AS id, 
