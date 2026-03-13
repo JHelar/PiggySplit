@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native-unistyles";
 
 export const styles = StyleSheet.create((theme, rt) => ({
+	scrollView: {
+		flexGrow: 0,
+		maxHeight: rt.screen.height,
+	},
 	container: {
 		paddingVertical: theme.gap(1),
 	},

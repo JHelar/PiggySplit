@@ -68,27 +68,27 @@ export function GroupScreen({ query }: GroupScreenProps) {
 
 	return (
 		<>
-			<Clouds />
+			<Clouds>
+				{group.group_state === GroupState.enum.Resolved && (
+					<Pig animation="resolved" />
+				)}
+			</Clouds>
 			<InfoSquare
 				style={styles.infoSquare}
 				info={
-					group.group_state === GroupState.enum.Resolved ? (
-						<Pig canvas animation="bobbing" />
-					) : (
-						<>
-							<GroupInfoRow group={group} />
-							<View style={styles.members}>
-								{group.members.map((member) => (
-									<Avatar
-										firstName={member.first_name}
-										lastName={member.last_name}
-										key={member.member_id}
-										type={MemberStateToAvatarType[member.member_state]}
-									/>
-								))}
-							</View>
-						</>
-					)
+					<>
+						<GroupInfoRow group={group} />
+						<View style={styles.members}>
+							{group.members.map((member) => (
+								<Avatar
+									firstName={member.first_name}
+									lastName={member.last_name}
+									key={member.member_id}
+									type={MemberStateToAvatarType[member.member_state]}
+								/>
+							))}
+						</View>
+					</>
 				}
 			/>
 			<ListContainer

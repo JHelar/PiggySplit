@@ -28,57 +28,46 @@ import { RightFrontLeg } from "./RightFrontLeg";
 import { RightWing } from "./RightWing";
 import { Tail } from "./Tail";
 
-const PIG_WIDTH = 193;
-
 export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 	const progress = useSharedValue(0);
 	const bezier = useRef(Easing.bezier(0.5, 1, 0.5, 0).factory());
 
 	useEffect(() => {
-		if (animation === "swoop") {
-			progress.value = withRepeat(
-				withDelay(
-					500,
-					withTiming(1, {
-						easing: Easing.linear,
-						duration: 5250,
-					}),
-				),
-				-1,
-				false,
-			);
-		}
-		if (animation === "bobbing") {
-			progress.value = withRepeat(
+		progress.value = withRepeat(
+			withDelay(
+				500,
 				withTiming(1, {
-					easing: Easing.inOut(Easing.ease),
-					duration: 2250,
+					easing: Easing.linear,
+					duration: 5250,
 				}),
-				-1,
-				true,
-			);
-		}
-	}, [progress, animation]);
+			),
+			-1,
+			false,
+		);
+	}, [progress]);
 
 	const body = useDerivedValue(() => {
-		let x = PIG_WIDTH / 2;
+		let x = 0;
+		let y = 0;
+		let scale = 1;
 		if (animation === "swoop") {
 			x = interpolate(bezier.current(progress.value), [0, 1], [-193, 193 * 2]);
+			y = curve(progress.value, 2, 250);
+			scale = interpolate(
+				bezier.current(progress.value),
+				[0, 0.5, 1],
+				[0.3, 1, 1.3],
+			);
+		} else {
+			y =
+				interpolate(
+					bezier.current(progress.value),
+					[0, 0.5, 1],
+					[125, 125, 135],
+				) + curve(progress.value, 2, 55);
+			scale = 0.25;
+			x = interpolate(progress.value, [0, 1], [-193, 193 * 2.5]);
 		}
-		const y = curve(
-			progress.value,
-			animation === "swoop" ? 2 : 1,
-			animation === "swoop" ? 250 : 10,
-		);
-
-		const scale =
-			animation === "swoop"
-				? interpolate(
-						bezier.current(progress.value),
-						[0, 0.5, 1],
-						[0.3, 1, 1.3],
-					)
-				: 1;
 
 		return [
 			{
@@ -118,7 +107,7 @@ export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 	});
 
 	const leg = useDerivedValue(() => {
-		if (animation === "bobbing") return [];
+		if (animation === "resolved") return [];
 
 		const amplitude = (Math.PI / 180) * 10;
 		const rotate = -curve(bezier.current(progress.value), 4, amplitude);

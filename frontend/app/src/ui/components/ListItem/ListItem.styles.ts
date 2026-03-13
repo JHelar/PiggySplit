@@ -17,7 +17,7 @@ export const styles = StyleSheet.create((theme) => ({
 					paddingVertical: theme.gap(1.5),
 				},
 				expense: {
-					paddingVertical: theme.gap(2.5),
+					height: 70,
 				},
 			},
 		},

@@ -42,7 +42,7 @@ export function ExpenseListItem({
 				</View>
 			}
 			right={
-				<View>
+				<View style={{ height: "100%" }}>
 					<Text variant="body">
 						{formatCurrency(expense.cost, {
 							currencyCode: expense.currency_code,
@@ -56,10 +56,18 @@ export function ExpenseListItem({
 					{groupState === GroupState.enum.Expenses && (
 						<ContextMenu
 							trigger={
-								<Icon
-									name="list-menu"
-									accessibilityLabel={t`Open expense menu`}
-								/>
+								<View
+									style={{
+										height: "100%",
+										alignItems: "center",
+										justifyContent: "center",
+									}}
+								>
+									<Icon
+										name="list-menu"
+										accessibilityLabel={t`Open expense menu`}
+									/>
+								</View>
 							}
 							actions={[
 								{
