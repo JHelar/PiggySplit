@@ -1,15 +1,7 @@
 import type { FieldPath, FieldValues } from "react-hook-form";
-import {
-	TextInput as RNTextInput,
-	type TextInputProps as RNTextInputProps,
-} from "react-native";
+import { TextInput as RNTextInput } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import type { FormFieldInput } from "../FormField";
-
-type TextInputProps<
-	TFieldValues extends FieldValues = FieldValues,
-	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = RNTextInputProps & FormFieldInput<TFieldValues, TName>;
+import type { TextInputProps } from "./TextInput.types";
 
 export function TextInput<
 	TFieldValues extends FieldValues = FieldValues,
@@ -18,6 +10,7 @@ export function TextInput<
 	field,
 	fieldState,
 	formState,
+	rightSlot,
 	...inputProps
 }: TextInputProps<TFieldValues, TName>) {
 	return (

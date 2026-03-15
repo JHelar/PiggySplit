@@ -28,12 +28,16 @@ export function Button({
 
 	const noContent = typeof children === "undefined";
 
+	styles.useVariants({ variant, size, noContent });
+
 	const Content = useMemo(() => {
-		if (loading) return <Spinner />;
-		if (noContent) return Icon;
+		if (noContent) {
+			if (loading) return <Spinner />;
+			return Icon;
+		}
 		return (
 			<>
-				{Icon}
+				{loading ? <Spinner /> : Icon}
 				<Text style={styles.text} variant="body">
 					{children}
 				</Text>
@@ -53,7 +57,6 @@ export function Button({
 				onTouchEnd={handleOnPress}
 				style={[
 					styles.container,
-					styles.borderRadius(noContent),
 					{ backgroundColor: undefined },
 					containerStyles,
 				]}
@@ -72,11 +75,7 @@ export function Button({
 	return (
 		<Pressable
 			onPress={onPress}
-			style={[
-				styles.container,
-				styles.borderRadius(noContent),
-				containerStyles,
-			]}
+			style={[styles.container, containerStyles]}
 			disabled={loading}
 			accessibilityRole="button"
 			accessibilityState={{

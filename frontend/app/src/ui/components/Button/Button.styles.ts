@@ -34,17 +34,18 @@ export const styles = StyleSheet.create((theme) => ({
 					backgroundColor: undefined,
 				},
 			},
+			noContent: {
+				true: {
+					borderRadius: 9999,
+				},
+				false: {
+					paddingHorizontal: theme.gap(2.5),
+				},
+				default: {
+					paddingHorizontal: theme.gap(2.5),
+				},
+			},
 		},
-	},
-	borderRadius(noContent: boolean) {
-		if (noContent) {
-			return {
-				borderRadius: 9999,
-			};
-		}
-		return {
-			paddingHorizontal: theme.gap(1.5),
-		};
 	},
 	text: {
 		variants: {

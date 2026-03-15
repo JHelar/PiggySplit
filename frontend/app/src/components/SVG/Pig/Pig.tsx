@@ -28,6 +28,38 @@ import { RightFrontLeg } from "./RightFrontLeg";
 import { RightWing } from "./RightWing";
 import { Tail } from "./Tail";
 
+type Vec2 = readonly [x: number, y: number];
+function vec(x: number, y: number): Vec2 {
+	"worklet";
+	return [x, y];
+}
+
+function dot([a1, a2]: Vec2, [b1, b2]: Vec2) {
+	"worklet";
+	return a1 * b1 + a2 * b2;
+}
+
+function length([a1, a2]: Vec2) {
+	"worklet";
+	return Math.sqrt(a1 ** 2 + a2 ** 2);
+}
+
+function angle(a: Vec2, b: Vec2) {
+	"worklet";
+	return Math.acos(dot(a, b) / (length(a) * length(b)));
+}
+
+function loopDeLoop(progress: number): Vec2 {
+	"worklet";
+	const t = interpolate(progress, [0, 1], [-3, 6]);
+	return [
+		interpolate(3 + Math.cos(t) + t / 3, [0, 6], [0, 1]),
+		interpolate(Math.sin(t), [-1, 1], [0, 1]),
+	];
+}
+
+const ANIMATION_DURATION = 5250;
+
 export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 	const progress = useSharedValue(0);
 	const bezier = useRef(Easing.bezier(0.5, 1, 0.5, 0).factory());
@@ -38,7 +70,7 @@ export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 				500,
 				withTiming(1, {
 					easing: Easing.linear,
-					duration: 5250,
+					duration: ANIMATION_DURATION,
 				}),
 			),
 			-1,
@@ -50,6 +82,7 @@ export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 		let x = 0;
 		let y = 0;
 		let scale = 1;
+		let rotate = 0;
 		if (animation === "swoop") {
 			x = interpolate(bezier.current(progress.value), [0, 1], [-193, 193 * 2]);
 			y = curve(progress.value, 2, 250);
@@ -59,14 +92,16 @@ export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 				[0.3, 1, 1.3],
 			);
 		} else {
-			y =
-				interpolate(
-					bezier.current(progress.value),
-					[0, 0.5, 1],
-					[125, 125, 135],
-				) + curve(progress.value, 2, 55);
+			const loop = loopDeLoop(progress.value);
 			scale = 0.25;
-			x = interpolate(progress.value, [0, 1], [-193, 193 * 2.5]);
+			y = interpolate(loop[1], [0, 1], [30, 110]);
+			x = interpolate(loop[0], [0, 1], [-193 * 2, 193 * 2]);
+
+			rotate = interpolate(
+				progress.value,
+				[0, 0.28, 0.78, 1],
+				[0, 0, Math.PI * 2, Math.PI * 2],
+			);
 		}
 
 		return [
@@ -79,15 +114,15 @@ export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 			{
 				scale,
 			},
+			{
+				rotate,
+			},
 		] satisfies Transforms3d;
 	});
 
 	const wingSkew = useDerivedValue(() => {
 		const amplitude = Math.PI / 6;
-		return (
-			-amplitude *
-			curve(progress.value, animation === "swoop" ? 6 : 1, amplitude)
-		);
+		return -amplitude * curve(progress.value, 6, amplitude);
 	});
 
 	const rightWing = useDerivedValue(() => {
@@ -134,7 +169,7 @@ export function Pig({ style, canvas, animation = "swoop" }: PigProps) {
 	});
 
 	const pig = (
-		<Group transform={body}>
+		<Group transform={body} origin={{ x: 193 / 2, y: 211 / 2 }}>
 			<LeftWing transform={leftWing} />
 			<LeftBackLeg transform={leg} />
 			<LeftFrontLeg transform={leg} />
