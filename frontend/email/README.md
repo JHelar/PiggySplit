@@ -1,15 +1,28 @@
-# email
+# Piggy split email
 
-To install dependencies:
+Email template builder for generating email templates, this is mainly used to create the html template for the email verification code email.
 
-```bash
-bun install
-```
-
-To run:
+## Installation
 
 ```bash
-bun run index.ts
+$ bun install
 ```
 
-This project was created using `bun init` in bun v1.3.2. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+## Starting dev server
+
+Start the dev server
+```bash
+$ bun dev
+```
+
+Edit the email in [verification.tsx](./emails/verification.tsx)
+
+## Export to the templates backend
+
+Build and export the template to the backend
+
+```bash
+$ bun export
+```
+
+This will build and output the html template file to the backend [verification.html](../../backend/templates/verification.html). It will ensure to inject the correct golang template strings for the code and backend url.

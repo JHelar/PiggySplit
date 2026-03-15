@@ -23,6 +23,9 @@ WORKDIR /app
 # Copy the binary
 COPY --from=build /app/server /app/server
 
+# Copy the templates
+COPY --from=build /app/templates /app/templates
+
 # Ensure the data directory
 RUN mkdir -p /data && chown -R 568:568 /data
 
