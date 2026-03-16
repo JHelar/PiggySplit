@@ -2,6 +2,8 @@
 
 UI and UX has been setup in Figma, and can be view in the following url
 
+<img src="../images/figma_overview.png" width="350">
+
 - [Figma project](https://www.figma.com/design/g0nMlUL79CSozL4Tt9VaDP/Piggysplit?node-id=1-206&t=244o2oV85Fs8MomS-0)
 
 

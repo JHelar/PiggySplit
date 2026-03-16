@@ -2,9 +2,11 @@
 
 Application for splitting group expenses
 
+<img src="./images/pig.png" width="250"/>
+
 ## Design
 
-You can read up on the UX UI design thoughts and ideas in the [DESIGN.md](./DESIGN.md)
+You can read up on the UX UI design thoughts and ideas in the [DESIGN.md](./docs/DESIGN.md)
 
 ## Backend
 
