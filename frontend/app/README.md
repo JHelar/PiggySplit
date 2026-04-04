@@ -80,6 +80,8 @@ This allows us to seamlessly update the UI without having to resort to http poll
 
 ### Structure
 
+Shallow overview of the project structure
+
 **Overview**
 ```
 ┌─ api
@@ -105,3 +107,14 @@ This allows us to seamlessly update the UI without having to resort to http poll
 └─ utils
 
 ```
+
+- `api`, containing wrapped queries to be used within the application
+- `app`, `expo-router` directory for the routing structure of the app
+- `components`, commonly shared components. Components in this directory does not need to be pure and can be dependant on other components and features
+- `hooks`, globally shared hooks
+- `i18n`, directory for the `lingui` setup and translation files
+- `query`, directory for the fetch implementation and setup for `tanstack/query` client
+- `schemas`, directory for all api response and form zod schemas
+- `screens`, directory for all screen components, this is the feature implementations for the routes
+- `ui`, directory for the pure ui components that the application will use. These should be 1:1 implementation of the design system defined in Figma
+- `utils`, globally shared utility functions
