@@ -4,9 +4,9 @@ Go lang backend for the Piggy Split application.
 
 ## Architecture
 
-It is a ever evolving project so the backend themes and architecture can vary depending on the needs of the application it self. Considerations such as best practices and the likes has not been something that has been a focus for the project. 
+It is an ever evolving project so the backend themes and architecture can vary depending on the needs of the application it self. Considerations such as best practices and the likes has not been something that has been a focus for the project. 
 
-Mostly I have used this as a outlet learn to code in golang and also as a fun project where guidelines and frameworks are not needed. If this would ever evolve into something that would require more developers to join, I would most likely restructure it so that it adheres to more common structures and best practices for golang projects.
+Mostly I have used this as an outlet learn to code in golang and also as a fun project where guidelines and frameworks are not needed. If this would ever evolve into something that would require more developers to join, I would most likely restructure it so that it adheres to more common structures and best practices for golang projects.
 
 **Overview**
 ```
@@ -41,7 +41,7 @@ Mostly I have used this as a outlet learn to code in golang and also as a fun pr
 
 ### Routing
 
-The project uses the go package fiber to more easily work with routing and route middleware
+The project uses the go package fiber to more easily work with routing and route middlewares used for authentication verification and route context api.
 
 ### Database
 
