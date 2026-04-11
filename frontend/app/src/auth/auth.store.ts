@@ -82,16 +82,6 @@ export const useAuth = create<AuthStoreState>()(
 	),
 );
 
-export function getAuthHeaders() {
-	const state = useAuth.getState();
-	if (state.accessToken && state.refreshToken) {
-		return {
-			Authorization: `Bearer ${state.accessToken}`,
-			"PS-Refresh": state.refreshToken,
-		};
-	}
-}
-
 type UpdateTokensArguments = {
 	accessToken: string;
 	refreshToken: string;

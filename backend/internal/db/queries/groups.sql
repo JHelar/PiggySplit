@@ -136,32 +136,3 @@ SET state = "group_state:archived", updated_at = CURRENT_TIMESTAMP
             ON groups.id=group_members.group_id
         WHERE groups.id=@group_id AND group_members.role=@member_role AND group_members.user_id=@user_id
     );
-
-CREATE TRIGGER prevent_expense_insert_on_archived_group
-BEFORE INSERT ON group_expenses
-FOR EACH ROW
-WHEN (
-    SELECT state FROM groups WHERE id = NEW.group_id
-) = 'group_state:archived'
-BEGIN
-    SELECT RAISE(FAIL, 'Cannot add expenses to an archived group');
-END;
-
-CREATE TRIGGER prevent_expense_update_on_archived_group
-BEFORE UPDATE ON group_expenses
-FOR EACH ROW
-WHEN (
-    SELECT state FROM groups WHERE id = OLD.group_id
-) = 'group_state:archived'
-BEGIN
-    SELECT RAISE(FAIL, 'Cannot modify expenses of an archived group');
-END;
-
-
-CREATE TRIGGER prevent_update_on_archived_groups
-BEFORE UPDATE ON groups
-FOR EACH ROW
-WHEN OLD.state = 'group_state:archived'
-BEGIN
-    SELECT RAISE(FAIL, 'Cannot modify an archived group');
-END;

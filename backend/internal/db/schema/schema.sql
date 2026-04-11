@@ -13,6 +13,15 @@ CREATE TABLE IF NOT EXISTS users (
     last_seen_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS trial_users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS user_sessions (
     id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(16)))),
 
@@ -114,3 +123,32 @@ CREATE TABLE IF NOT EXISTS group_member_transactions (
     FOREIGN KEY (from_receipt_id) REFERENCES group_member_receipts(id),
     FOREIGN KEY (to_receipt_id) REFERENCES group_member_receipts(id)
 );
+
+CREATE TRIGGER prevent_expense_insert_on_archived_group
+BEFORE INSERT ON group_expenses
+FOR EACH ROW
+WHEN (
+    SELECT state FROM groups WHERE id = NEW.group_id
+) = 'group_state:archived'
+BEGIN
+    SELECT RAISE(FAIL, 'Cannot add expenses to an archived group');
+END;
+
+CREATE TRIGGER prevent_expense_update_on_archived_group
+BEFORE UPDATE ON group_expenses
+FOR EACH ROW
+WHEN (
+    SELECT state FROM groups WHERE id = OLD.group_id
+) = 'group_state:archived'
+BEGIN
+    SELECT RAISE(FAIL, 'Cannot modify expenses of an archived group');
+END;
+
+
+CREATE TRIGGER prevent_update_on_archived_groups
+BEFORE UPDATE ON groups
+FOR EACH ROW
+WHEN OLD.state = 'group_state:archived'
+BEGIN
+    SELECT RAISE(FAIL, 'Cannot modify an archived group');
+END;

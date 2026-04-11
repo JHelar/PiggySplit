@@ -128,7 +128,9 @@ export const useSignInStore = create<SignInStoreState>((set, get) => ({
 			if (includes(SignInState, nextState)) {
 				set({ currentState: nextState });
 			} else {
-				router.back();
+				if (router.canGoBack()) {
+					router.back();
+				}
 				get().signInHandle?.(nextState);
 				set(DefaultState);
 			}
@@ -144,7 +146,9 @@ export const useSignInStore = create<SignInStoreState>((set, get) => ({
 			if (includes(SignInState, nextState)) {
 				set({ currentState: nextState });
 			} else {
-				router.back();
+				if (router.canGoBack()) {
+					router.back();
+				}
 				get().signInHandle?.(nextState);
 				set(DefaultState);
 			}

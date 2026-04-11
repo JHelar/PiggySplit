@@ -1,7 +1,7 @@
 import type { ZodType } from "zod";
-import { getAuthHeaders } from "@/auth/auth.store";
 import { assertIsError } from "@/utils/asserts";
 import { includes } from "@/utils/includes";
+import { getAuthHeaders } from "../lifecycle";
 import type {
 	EventSourceEvent,
 	EventSourceListener,
