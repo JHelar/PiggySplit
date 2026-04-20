@@ -25,6 +25,10 @@ func registerUserRoutes(app fiber.Router, api *ApiContext) {
 		return createNewUser(ctx, api)
 	}).Name("createNewUser")
 
+	app.Post("/trial", func(ctx *fiber.Ctx) error {
+		return newTrialSignIn(ctx, api)
+	}).Name("createTrialUser")
+
 	app.Get("/me", func(ctx *fiber.Ctx) error {
 		return getUser(ctx, api)
 	}).Name("getUser")

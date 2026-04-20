@@ -63,6 +63,9 @@ SELECT first_name, last_name, phone_number, email FROM users
 INSERT INTO users (first_name, last_name, phone_number, email) VALUES (?, ?, ?, ?)
     RETURNING first_name, last_name, phone_number, email, id;
 
+-- name: CreateTrialUser :exec
+INSERT INTO trial_users (user_id) VALUES (?);
+
 -- name: UpdateUser :one
 UPDATE users
     SET

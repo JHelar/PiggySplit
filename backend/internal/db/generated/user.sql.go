@@ -84,6 +84,15 @@ func (q *Queries) CreateSignInToken(ctx context.Context, arg CreateSignInTokenPa
 	return err
 }
 
+const createTrialUser = `-- name: CreateTrialUser :exec
+INSERT INTO trial_users (user_id) VALUES (?)
+`
+
+func (q *Queries) CreateTrialUser(ctx context.Context, userID int64) error {
+	_, err := q.db.ExecContext(ctx, createTrialUser, userID)
+	return err
+}
+
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (first_name, last_name, phone_number, email) VALUES (?, ?, ?, ?)
     RETURNING first_name, last_name, phone_number, email, id
