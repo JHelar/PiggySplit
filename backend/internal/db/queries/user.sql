@@ -52,19 +52,27 @@ DELETE FROM user_refresh_sessions
     WHERE id=?;
 
 -- name: GetUserByEmail :one
-SELECT * FROM users
-    WHERE email=?;
+SELECT first_name, last_name, phone_number, email, id FROM users
+    INNER JOIN default_users
+        ON default_users.id=users.id
+    INNER JOIN trial_users
+        ON trial_users.id=users.id
+    WHERE default_users.email=? OR trial_users.email=?;
 
 -- name: GetUserById :one
 SELECT first_name, last_name, phone_number, email FROM users
+    INNER JOIN default_users
+        ON default_users.id=users.id
+    INNER JOIN trial_users
+        ON trial_users.id=users.id
     WHERE id=?;
 
 -- name: CreateUser :one
-INSERT INTO users (first_name, last_name, phone_number, email) VALUES (?, ?, ?, ?)
+INSERT INTO default_users (first_name, last_name, phone_number, email, id) VALUES (?, ?, ?, ?, ?)
     RETURNING first_name, last_name, phone_number, email, id;
 
 -- name: CreateTrialUser :exec
-INSERT INTO trial_users (user_id) VALUES (?);
+INSERT INTO trial_users (id) VALUES (?);
 
 -- name: UpdateUser :one
 UPDATE users

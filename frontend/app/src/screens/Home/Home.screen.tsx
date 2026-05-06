@@ -1,7 +1,9 @@
 import { Trans } from "@lingui/react/macro";
+import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { View } from "react-native";
 import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
+import { signInTrail } from "@/api/user";
 import { Clouds } from "@/components/SVG/Clouds";
 import { Logo } from "@/components/SVG/Logo";
 import { Pig } from "@/components/SVG/Pig";
@@ -11,9 +13,12 @@ import { useSignInStore } from "../SignIn";
 
 export function HomeScreen() {
 	const signIn = useSignInStore(({ start }) => start);
-	const onSignIn = useCallback(async () => {
-		await signIn();
-	}, [signIn]);
+	const { mutateAsync: signInTrialUser, isPending } = useMutation(
+		signInTrail(),
+	);
+	const onSignInTrialUser = useCallback(async () => {
+		await signInTrialUser();
+	}, [signInTrialUser]);
 
 	return (
 		<>
@@ -38,8 +43,11 @@ export function HomeScreen() {
 				<Pig />
 			</Clouds>
 			<View style={styles.container}>
-				<Button onPress={onSignIn}>
+				<Button onPress={signIn}>
 					<Trans>Start Piggy splitting!</Trans>
+				</Button>
+				<Button onPress={onSignInTrialUser} variant="ghost" loading={isPending}>
+					<Trans>Try it out!</Trans>
 				</Button>
 				<ScreenContentFooterSpacer />
 			</View>

@@ -20,12 +20,17 @@ const (
 	HeaderToken   = "PS-Token"
 )
 
+const (
+	TrialAccountEmailDomain = "@piggysplit.com"
+	TrialAccountFirstName   = "Piggy"
+	TrialAccountLastName    = "Guest"
+	TrialAccountPhoneNumber = "1234567890"
+)
+
 type UserSession struct {
 	Bearer  string `reqHeader:"Authorization"`
 	Refresh string `reqHeader:"PS-Refresh"`
 }
-
-const TRIAL_ACCOUNT_EMAIL_DOMAIN = "@piggysplit.com"
 
 const SESSION_EXPIRE_TIME = time.Minute * 10
 const REFRESH_SESSION_EXPIRE_TIME = time.Hour * 24 * 365 // Year long refresh token
@@ -127,7 +132,7 @@ func generateSignInCode() int64 {
 }
 
 func generateTrailEmail() string {
-	return fmt.Sprintf("%s%s", uuid.NewString(), TRIAL_ACCOUNT_EMAIL_DOMAIN)
+	return fmt.Sprintf("%s%s", uuid.NewString(), TrialAccountEmailDomain)
 }
 
 type NewUserSignIn struct {
@@ -180,9 +185,9 @@ func newTrialSignIn(c *fiber.Ctx, api *ApiContext) error {
 
 	err := api.DB.RunAsTransaction(ctx, func(q *generated.Queries) error {
 		user, err := api.DB.Queries.CreateUser(ctx, generated.CreateUserParams{
-			FirstName:   "Piggy",
-			LastName:    "Split",
-			PhoneNumber: "XXX",
+			FirstName:   TrialAccountFirstName,
+			LastName:    TrialAccountLastName,
+			PhoneNumber: TrialAccountPhoneNumber,
 			Email:       email,
 		})
 
@@ -225,10 +230,7 @@ func newTrialSignIn(c *fiber.Ctx, api *ApiContext) error {
 	c.Response().Header.Add(HeaderRefresh, newRefreshToken)
 	c.Response().Header.Add(HeaderToken, session)
 
-	return c.JSON(fiber.Map{
-		"session":  session,
-		"new_user": false,
-	})
+	return c.SendStatus(fiber.StatusCreated)
 }
 
 func verifyUserSignIn(c *fiber.Ctx, api *ApiContext) error {

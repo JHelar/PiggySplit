@@ -3,23 +3,30 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
-    phone_number TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
     
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_seen_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS default_users (
+    id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    phone_number TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS trial_users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
+    id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
 
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    phone_number TEXT NOT NULL,
+    email TEXT NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    expires_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user_sessions (
@@ -124,7 +131,7 @@ CREATE TABLE IF NOT EXISTS group_member_transactions (
     FOREIGN KEY (to_receipt_id) REFERENCES group_member_receipts(id)
 );
 
-CREATE TRIGGER prevent_expense_insert_on_archived_group
+CREATE TRIGGER IF NOT EXISTS prevent_expense_insert_on_archived_group
 BEFORE INSERT ON group_expenses
 FOR EACH ROW
 WHEN (
@@ -134,7 +141,7 @@ BEGIN
     SELECT RAISE(FAIL, 'Cannot add expenses to an archived group');
 END;
 
-CREATE TRIGGER prevent_expense_update_on_archived_group
+CREATE TRIGGER IF NOT EXISTS prevent_expense_update_on_archived_group
 BEFORE UPDATE ON group_expenses
 FOR EACH ROW
 WHEN (
@@ -145,7 +152,7 @@ BEGIN
 END;
 
 
-CREATE TRIGGER prevent_update_on_archived_groups
+CREATE TRIGGER IF NOT EXISTS prevent_update_on_archived_groups
 BEFORE UPDATE ON groups
 FOR EACH ROW
 WHEN OLD.state = 'group_state:archived'

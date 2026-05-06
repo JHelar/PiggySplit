@@ -19,6 +19,16 @@ export function signIn() {
 	});
 }
 
+export function signInTrail() {
+	return mutationOptions({
+		async mutationFn() {
+			await fetchJSON("user/trial", {
+				method: "POST",
+			});
+		},
+	});
+}
+
 export function signOut() {
 	return mutationOptions({
 		async mutationFn() {
